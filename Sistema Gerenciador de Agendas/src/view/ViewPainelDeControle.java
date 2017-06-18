@@ -59,6 +59,12 @@ public class ViewPainelDeControle {
 		frame.getContentPane().add(btnConsultarAgendamentos);
 		
 		JButton btnSolicitarAgendamento = new JButton("Solicitar Agendamento");
+		btnSolicitarAgendamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewSolicitarAgendamento solicitarAgendamento = new ViewSolicitarAgendamento();
+				solicitarAgendamento.main(null);
+			}
+		});
 		btnSolicitarAgendamento.setBounds(12, 142, 252, 25);
 		frame.getContentPane().add(btnSolicitarAgendamento);
 		
