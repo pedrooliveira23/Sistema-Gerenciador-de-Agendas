@@ -15,7 +15,7 @@ import controller.ControllerPainelDeControle;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class PainelDeControle {
+public class ViewPainelDeControle {
 
 	private JFrame frame;
 
@@ -27,7 +27,7 @@ public class PainelDeControle {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PainelDeControle window = new PainelDeControle();
+					ViewPainelDeControle window = new ViewPainelDeControle();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class PainelDeControle {
 	/**
 	 * Create the application.
 	 */
-	public PainelDeControle() {
+	public ViewPainelDeControle() {
 		initialize();
 	}
 
@@ -63,6 +63,12 @@ public class PainelDeControle {
 		frame.getContentPane().add(btnSolicitarAgendamento);
 		
 		JButton btnConfiguraes = new JButton("Configurações");
+		btnConfiguraes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewConfiguracoes configuracoes = new ViewConfiguracoes();
+				configuracoes.main(null);
+			}
+		});
 		btnConfiguraes.setBounds(12, 172, 252, 25);
 		frame.getContentPane().add(btnConfiguraes);
 		

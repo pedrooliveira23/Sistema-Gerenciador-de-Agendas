@@ -16,5 +16,9 @@ public class ControllerPainelDeControle {
 	public void CriarAgenteAgenda() {
 		painelDeControle.criarAgente();
 	}
+
+	public void mudarNomeAgente(String nome) {
+		painelDeControle.mudarNomeAgente(nome);
+	}
 }
 
