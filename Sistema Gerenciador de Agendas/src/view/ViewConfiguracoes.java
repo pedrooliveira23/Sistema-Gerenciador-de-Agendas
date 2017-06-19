@@ -13,6 +13,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 import controller.ControllerConfiguracoes;
+import controller.ControllerJadeContainer;
 import controller.ControllerPainelDeControle;
 
 import javax.swing.SwingConstants;
@@ -30,7 +31,8 @@ public class ViewConfiguracoes {
 	 * Launch the application.
 	 */
 	
-	private static ControllerConfiguracoes controller = new ControllerConfiguracoes();
+	private static ControllerConfiguracoes controller = null;
+	private static ControllerJadeContainer container = null;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -46,7 +48,13 @@ public class ViewConfiguracoes {
 
 	/**
 	 * Create the application.
+	 * @param container 
 	 */
+	public ViewConfiguracoes(ControllerJadeContainer container) {
+		this.container = container;
+		controller = new ControllerConfiguracoes(container);
+		initialize();
+	}
 	public ViewConfiguracoes() {
 		initialize();
 	}

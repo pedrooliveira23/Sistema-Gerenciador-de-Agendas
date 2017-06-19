@@ -1,5 +1,6 @@
 package controller;
 
+import jade.Boot;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.ContainerController;
@@ -18,5 +19,13 @@ public class ControllerJadeContainer {
 	}
 	public void setContainer(ContainerController container) {
 		this.container = container;
+	}
+	
+	
+	public void abrirRMA() {
+		Boot jadeBoot = new Boot();
+		String[] jadeArgs = new String[1];
+		jadeArgs[0] = "-gui";
+		jadeBoot.main(jadeArgs);
 	}
 }

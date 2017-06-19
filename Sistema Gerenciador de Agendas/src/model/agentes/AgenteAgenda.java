@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import jade.core.AID;
 import jade.core.Agent;
+import jade.domain.AMSService;
+import jade.domain.FIPAAgentManagement.AMSAgentDescription;
+import jade.domain.FIPAAgentManagement.SearchConstraints;
 import model.entidades.Agendamento;
 
 public class AgenteAgenda extends Agent {

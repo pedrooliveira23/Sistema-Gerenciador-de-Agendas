@@ -7,6 +7,9 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JCalendar;
 
+import controller.ControllerJadeContainer;
+import controller.ControllerSolicitarAgendamento;
+
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -21,6 +24,7 @@ public class ViewSolicitarAgendamento {
 	/**
 	 * Launch the application.
 	 */
+	private ControllerSolicitarAgendamento controller = null;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -36,7 +40,13 @@ public class ViewSolicitarAgendamento {
 
 	/**
 	 * Create the application.
+	 * @param container 
 	 */
+	public ViewSolicitarAgendamento(ControllerJadeContainer container) {
+		controller = new ControllerSolicitarAgendamento(container);
+		initialize();
+	}
+	
 	public ViewSolicitarAgendamento() {
 		initialize();
 	}
@@ -82,7 +92,7 @@ public class ViewSolicitarAgendamento {
 		lblParticipantes.setBounds(268, 73, 110, 15);
 		frame.getContentPane().add(lblParticipantes);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox comboBox = new JComboBox(controller.obterParticipantes());
 		comboBox.setBounds(262, 90, 142, 24);
 		frame.getContentPane().add(comboBox);
 		

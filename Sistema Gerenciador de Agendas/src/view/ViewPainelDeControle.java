@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import controller.ControllerJadeContainer;
 import controller.ControllerPainelDeControle;
 
 import java.awt.event.ActionListener;
@@ -22,7 +23,8 @@ public class ViewPainelDeControle {
 	/**
 	 * Launch the application.
 	 */
-	private static ControllerPainelDeControle controller = new ControllerPainelDeControle();
+	private static ControllerJadeContainer container = null;
+	private static ControllerPainelDeControle controller = null;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -34,8 +36,9 @@ public class ViewPainelDeControle {
 				}
 			}
 		});
-		controller.abrirRMA();
-		controller.CriarAgenteAgenda();
+		container = new ControllerJadeContainer();
+		container.abrirRMA();
+		controller = new ControllerPainelDeControle(container);
 	}
 
 	/**
@@ -61,7 +64,7 @@ public class ViewPainelDeControle {
 		JButton btnSolicitarAgendamento = new JButton("Solicitar Agendamento");
 		btnSolicitarAgendamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewSolicitarAgendamento solicitarAgendamento = new ViewSolicitarAgendamento();
+				ViewSolicitarAgendamento solicitarAgendamento = new ViewSolicitarAgendamento(container);
 				solicitarAgendamento.main(null);
 			}
 		});
@@ -71,7 +74,7 @@ public class ViewPainelDeControle {
 		JButton btnConfiguraes = new JButton("Configurações");
 		btnConfiguraes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewConfiguracoes configuracoes = new ViewConfiguracoes();
+				ViewConfiguracoes configuracoes = new ViewConfiguracoes(container);
 				configuracoes.main(null);
 			}
 		});
