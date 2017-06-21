@@ -10,7 +10,16 @@ import jade.wrapper.StaleProxyException;
 public class ControllerJadeContainer {
 	private ContainerController container;
 	private static final ControllerJadeContainer instancia = new ControllerJadeContainer();
+	private String nomeAgente;
 	
+	public String getNomeAgente() {
+		return nomeAgente;
+	}
+
+	public void setNomeAgente(String nomeAgente) {
+		this.nomeAgente = nomeAgente;
+	}
+
 	private ControllerJadeContainer() {
 
 	}

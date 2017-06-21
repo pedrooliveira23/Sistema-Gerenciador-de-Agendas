@@ -1,4 +1,4 @@
-package model.agentes;
+package model.agents;
 
 import java.util.ArrayList;
 
@@ -16,10 +16,9 @@ import jade.wrapper.ControllerException;
 import model.agentes.comportamentos.FazerCheckIn;
 import model.entidades.Agendamento;
 
-public class AgenteAgenda extends Agent {
+public class AgentAgenda extends Agent {
 
 	private ArrayList<Agendamento> agendamentos = new ArrayList<Agendamento>();
-	private AID[] agendas;
 
 	protected void setup() {
 		setAgendamentos(new ArrayList());
@@ -34,6 +33,7 @@ public class AgenteAgenda extends Agent {
 	}
 
 	public AID[] obterAgentes() {
+		AID[] agendas = null;
 		DFAgentDescription dfd = new DFAgentDescription();
 		ServiceDescription sd  = new ServiceDescription();
 		sd.setType( "Agenda" );

@@ -5,13 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import jade.Boot;
+import jade.gui.GuiEvent;
+import model.agents.AgentPainelDeControle;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import controller.ControllerJadeContainer;
-import controller.ControllerPainelDeControle;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,37 +21,23 @@ public class ViewPainelDeControle {
 
 	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	private static ControllerPainelDeControle controller = null;
-	private static ControllerJadeContainer container;
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ViewPainelDeControle window = new ViewPainelDeControle();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		controller = new ControllerPainelDeControle();
-		container.getInstance().abrirRMA();
-		controller.CriarAgenteAgenda();
+	public JFrame getFrame() {
+		return frame;
 	}
 
+	private static AgentPainelDeControle controller = null;
 	/**
-	 * Create the application.
+	 * @wbp.parser.constructor
 	 */
 	public ViewPainelDeControle() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	public ViewPainelDeControle(AgentPainelDeControle controllerPainelDeControle) {
+		controller = controllerPainelDeControle;
+		initialize();
+	}
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 283, 300);
@@ -74,8 +61,8 @@ public class ViewPainelDeControle {
 		JButton btnConfiguraes = new JButton("Configurações");
 		btnConfiguraes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewConfiguracoes configuracoes = new ViewConfiguracoes();
-				configuracoes.main(null);
+				GuiEvent evento = new GuiEvent(null, controller.CONFIGURAR);
+				controller.postGuiEvent(evento);
 			}
 		});
 		btnConfiguraes.setBounds(12, 172, 252, 25);
@@ -84,7 +71,8 @@ public class ViewPainelDeControle {
 		JButton btnSair = new JButton("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.encerrarAplicacao();
+				GuiEvent evento = new GuiEvent(null, controller.SAIR);
+				controller.postGuiEvent(evento);
 			}
 		});
 		btnSair.setBounds(12, 237, 252, 25);

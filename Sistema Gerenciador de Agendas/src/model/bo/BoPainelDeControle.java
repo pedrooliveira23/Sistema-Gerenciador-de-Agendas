@@ -4,35 +4,36 @@ import controller.ControllerJadeContainer;
 import jade.Boot;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
+import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
+import view.ViewPainelDeControle;
 
 public class BoPainelDeControle {
+	private String nomeAgente;
 
-	private static String nomeAgente = "Visitante" + (int)(Math.random() * 9999999);	
+	public void encerrar(ViewPainelDeControle painel) {
 
-	public void encerrar() {
-		System.exit(0);
 	}
 	
-	public void criarAgente(ContainerController containerController) {
+	public void criarAgent(String nome, String classe, AgentContainer agentContainer) {
 		try {
-			AgentController ag = containerController.createNewAgent(getNomeAgente(), 
-					"model.agentes.AgenteAgenda", 
+			AgentController ag = agentContainer.createNewAgent(nome, 
+					classe, 
 					new Object[] {});//arguments
 			ag.start();
-
+			setNomeAgente(nome);
 		} catch (StaleProxyException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void destruirAgente(ContainerController containerController){
+	public void destruirAgent(AgentContainer agentContainer){
 		try {
-			containerController.getAgent(getNomeAgente()).kill();
+			agentContainer.getAgent(getNomeAgente()).kill();
 		} catch (StaleProxyException e) {
 			e.printStackTrace();
 		} catch (ControllerException e) {
@@ -40,10 +41,9 @@ public class BoPainelDeControle {
 		}
 	}
 
-	public void mudarNomeAgente(String nome, ContainerController containerController) {
-		destruirAgente(containerController);
-		setNomeAgente(nome);
-		criarAgente(containerController);
+	public void mudarNomeAgente(String nome, String classe, AgentContainer agentContainer) {
+		destruirAgent(agentContainer);
+		criarAgent(nome, classe, agentContainer);
 	}
 
 	public String getNomeAgente() {

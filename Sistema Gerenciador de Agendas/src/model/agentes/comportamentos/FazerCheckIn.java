@@ -12,7 +12,7 @@ import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import model.agentes.AgenteAgenda;
+import model.agents.AgentAgenda;
 
 public class FazerCheckIn extends Behaviour{	
 	@Override

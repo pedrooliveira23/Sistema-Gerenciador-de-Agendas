@@ -12,9 +12,10 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-import controller.ControllerConfiguracoes;
 import controller.ControllerJadeContainer;
-import controller.ControllerPainelDeControle;
+import jade.gui.GuiEvent;
+import model.agents.AgentConfiguracoes;
+import model.agents.AgentPainelDeControle;
 
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
@@ -25,27 +26,40 @@ import java.awt.event.ActionEvent;
 public class ViewConfiguracoes {
 
 	private JFrame frame;
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
 	private JTextField textField;
+	private String nomeAgente;
+	
+	public String getNomeAgente() {
+		return nomeAgente;
+	}
+	public void setNomeAgente(String nomeAgente) {
+		this.nomeAgente = nomeAgente;
+	}
 
 	/**
 	 * Launch the application.
 	 */
 	
-	private static ControllerConfiguracoes controller = new ControllerConfiguracoes();
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ViewConfiguracoes window = new ViewConfiguracoes();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static AgentConfiguracoes controller = null;
+
+	/**
+	 * @wbp.parser.constructor
+	 */
 
 	public ViewConfiguracoes() {
+		initialize();
+	}
+
+	public ViewConfiguracoes(AgentConfiguracoes agentConfiguracoes) {
+		controller = agentConfiguracoes;
 		initialize();
 	}
 
@@ -75,8 +89,9 @@ public class ViewConfiguracoes {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.salvarConfiguracoes(textField.getText());
-				frame.setVisible(false);
+				GuiEvent evento = new GuiEvent(null, controller.SALVAR);
+				setNomeAgente(textField.getText());
+				controller.postGuiEvent(evento);
 			}
 		});
 		btnSalvar.setBounds(319, 237, 117, 25);
@@ -85,7 +100,8 @@ public class ViewConfiguracoes {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
+				GuiEvent evento = new GuiEvent(null, controller.CANCELAR);
+				controller.postGuiEvent(evento);
 			}
 		});
 		btnCancelar.setBounds(12, 237, 117, 25);
