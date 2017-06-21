@@ -31,8 +31,7 @@ public class ViewConfiguracoes {
 	 * Launch the application.
 	 */
 	
-	private static ControllerConfiguracoes controller = null;
-	private static ControllerJadeContainer container = null;
+	private static ControllerConfiguracoes controller = new ControllerConfiguracoes();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -46,15 +45,6 @@ public class ViewConfiguracoes {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 * @param container 
-	 */
-	public ViewConfiguracoes(ControllerJadeContainer container) {
-		this.container = container;
-		controller = new ControllerConfiguracoes(container);
-		initialize();
-	}
 	public ViewConfiguracoes() {
 		initialize();
 	}

@@ -24,7 +24,7 @@ public class ViewSolicitarAgendamento {
 	/**
 	 * Launch the application.
 	 */
-	private ControllerSolicitarAgendamento controller = null;
+	private ControllerSolicitarAgendamento controller = new ControllerSolicitarAgendamento();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,10 +42,6 @@ public class ViewSolicitarAgendamento {
 	 * Create the application.
 	 * @param container 
 	 */
-	public ViewSolicitarAgendamento(ControllerJadeContainer container) {
-		controller = new ControllerSolicitarAgendamento(container);
-		initialize();
-	}
 	
 	public ViewSolicitarAgendamento() {
 		initialize();

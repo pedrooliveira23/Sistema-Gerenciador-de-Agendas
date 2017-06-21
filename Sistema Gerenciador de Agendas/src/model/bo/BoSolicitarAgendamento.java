@@ -7,33 +7,15 @@ import jade.domain.FIPAAgentManagement.AMSAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.wrapper.ContainerController;
 import jade.wrapper.ControllerException;
+import model.agentes.AgenteAgenda;
 
 public class BoSolicitarAgendamento {
 
-	public String[] obterAgentes(ContainerController containerController, String nome) {
-		Agent agente = null;
-		try {
-			agente = (Agent) containerController.getAgent(nome);
-		} catch (ControllerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		AMSAgentDescription[] agentes = null;
-		
-		try {
-			SearchConstraints c = new SearchConstraints();
-			c.setMaxResults(new Long(-1));
-			agentes = AMSService.search(agente, new AMSAgentDescription(), c);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-		}
-		
-		String[] listaAgentes = new String[agentes.length];
-		
-		for(int i = 0; i < agentes.length; i++) {
-			AID agenteID = agentes[i].getName();
-			listaAgentes[i] = agenteID.getLocalName();
+	public String[] obterAgentes() {
+		AgenteAgenda agenteLocal = new AgenteAgenda();
+		String[] listaAgentes = new String[agenteLocal.obterAgentes().length];
+		for(int i = 0; i<=agenteLocal.obterAgentes().length;i++) {
+			listaAgentes[i] = agenteLocal.obterAgentes()[i].getLocalName();
 		}
 		return listaAgentes;
 	}

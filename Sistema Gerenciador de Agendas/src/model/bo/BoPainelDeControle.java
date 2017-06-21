@@ -11,15 +11,15 @@ import jade.wrapper.StaleProxyException;
 
 public class BoPainelDeControle {
 
-	private static String nomeAgente;	
+	private static String nomeAgente = "Visitante" + (int)(Math.random() * 9999999);	
 
 	public void encerrar() {
 		System.exit(0);
 	}
 	
-	public void criarAgente(ControllerJadeContainer container) {
+	public void criarAgente(ContainerController containerController) {
 		try {
-			AgentController ag = container.getContainer().createNewAgent(getNomeAgente(), 
+			AgentController ag = containerController.createNewAgent(getNomeAgente(), 
 					"model.agentes.AgenteAgenda", 
 					new Object[] {});//arguments
 			ag.start();
@@ -30,9 +30,9 @@ public class BoPainelDeControle {
 
 	}
 
-	public void destruirAgente(ControllerJadeContainer container){
+	public void destruirAgente(ContainerController containerController){
 		try {
-			container.getContainer().getAgent(getNomeAgente()).kill();
+			containerController.getAgent(getNomeAgente()).kill();
 		} catch (StaleProxyException e) {
 			e.printStackTrace();
 		} catch (ControllerException e) {
@@ -40,10 +40,10 @@ public class BoPainelDeControle {
 		}
 	}
 
-	public void mudarNomeAgente(String nome, ControllerJadeContainer container) {
-		destruirAgente(container);
+	public void mudarNomeAgente(String nome, ContainerController containerController) {
+		destruirAgente(containerController);
 		setNomeAgente(nome);
-		criarAgente(container);
+		criarAgente(containerController);
 	}
 
 	public String getNomeAgente() {
