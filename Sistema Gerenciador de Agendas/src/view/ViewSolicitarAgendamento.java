@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 public class ViewSolicitarAgendamento {
 
@@ -67,7 +68,7 @@ public class ViewSolicitarAgendamento {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 419, 329);
+		frame.setBounds(100, 100, 419, 444);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -139,7 +140,13 @@ public class ViewSolicitarAgendamento {
 		frame.getContentPane().add(button_1);
 
 		JButton btnSolicitar = new JButton("Solicitar");
-		btnSolicitar.setBounds(268, 262, 136, 25);
+		btnSolicitar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiEvent evento = new GuiEvent(null, controller.SOLICITAR);
+				controller.postGuiEvent(evento);
+			}
+		});
+		btnSolicitar.setBounds(268, 381, 136, 25);
 		frame.getContentPane().add(btnSolicitar);
 
 		JButton btnCancelar = new JButton("Cancelar");
@@ -149,7 +156,18 @@ public class ViewSolicitarAgendamento {
 				controller.postGuiEvent(evento);
 			}
 		});
-		btnCancelar.setBounds(10, 262, 117, 25);
-		frame.getContentPane().add(btnCancelar);;
+		btnCancelar.setBounds(10, 381, 117, 25);
+		frame.getContentPane().add(btnCancelar);
+		
+		JLabel lblObjetivo = new JLabel("Objetivo:");
+		lblObjetivo.setBounds(10, 262, 70, 15);
+		frame.getContentPane().add(lblObjetivo);
+		
+		JScrollPane scrollPaneTextArea = new JScrollPane();
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		scrollPaneTextArea.setBounds(10, 282, 394, 87);
+		scrollPaneTextArea.setViewportView(textArea);
+		frame.getContentPane().add(scrollPaneTextArea);
 	}
 }

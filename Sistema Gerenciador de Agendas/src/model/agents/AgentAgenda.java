@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.TickerBehaviour;
 import jade.domain.AMSService;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -11,6 +12,7 @@ import jade.domain.FIPAAgentManagement.AMSAgentDescription;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
 import jade.wrapper.ContainerController;
 import jade.wrapper.ControllerException;
 import model.agentes.comportamentos.FazerCheckIn;
@@ -23,6 +25,18 @@ public class AgentAgenda extends Agent {
 	protected void setup() {
 		setAgendamentos(new ArrayList());
 		addBehaviour(new FazerCheckIn());
+		
+        addBehaviour(new TickerBehaviour(this, 5000) {
+            
+        protected void onTick() {
+                ACLMessage msgRx = receive();
+                if (msgRx != null) {
+                    System.out.println(msgRx.getSender().getLocalName() + " me mandou mensagem:" +
+                            msgRx.getContent());
+                }
+            }
+        });
+		
 	}
 
 	public ArrayList<Agendamento> getAgendamentos() {
