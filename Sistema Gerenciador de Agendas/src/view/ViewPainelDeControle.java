@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 import jade.Boot;
 import jade.gui.GuiEvent;
-import model.agents.AgentPainelDeControle;
+import model.agents.gui.AgentPainelDeControle;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -51,8 +51,8 @@ public class ViewPainelDeControle {
 		JButton btnSolicitarAgendamento = new JButton("Solicitar Agendamento");
 		btnSolicitarAgendamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewSolicitarAgendamento solicitarAgendamento = new ViewSolicitarAgendamento();
-				solicitarAgendamento.main(null);
+				GuiEvent evento = new GuiEvent(null, controller.SOLICITAR);
+				controller.postGuiEvent(evento);
 			}
 		});
 		btnSolicitarAgendamento.setBounds(12, 142, 252, 25);

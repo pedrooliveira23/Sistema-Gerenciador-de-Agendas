@@ -1,4 +1,4 @@
-package model.agents;
+package model.agents.gui;
 
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
@@ -26,9 +26,9 @@ public class AgentConfiguracoes extends GuiAgent {
 		switch(arg0.getType()) {
 			case SALVAR:
 				salvarConfiguracoes(configuracoes.getNomeAgente(), "model.agents.AgentAgenda");
-//				configuracoes.getFrame().dispose();
-//				configuracoes = null;
-//				doDelete();
+				configuracoes.getFrame().dispose();
+				configuracoes = null;
+				doDelete();
 				break;
 			case CANCELAR:
 				configuracoes.getFrame().dispose();

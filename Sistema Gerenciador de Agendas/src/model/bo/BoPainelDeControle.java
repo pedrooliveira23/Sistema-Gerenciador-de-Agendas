@@ -9,6 +9,7 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
+import model.agents.gui.AgentPainelDeControle;
 import view.ViewPainelDeControle;
 
 public class BoPainelDeControle {
@@ -31,9 +32,9 @@ public class BoPainelDeControle {
 
 	}
 
-	public void destruirAgent(AgentContainer agentContainer){
+	public void destruirAgent(AgentContainer agentContainer, String nomeAnterior){
 		try {
-			agentContainer.getAgent(getNomeAgente()).kill();
+			agentContainer.getAgent(nomeAnterior).kill();
 		} catch (StaleProxyException e) {
 			e.printStackTrace();
 		} catch (ControllerException e) {
@@ -41,9 +42,10 @@ public class BoPainelDeControle {
 		}
 	}
 
-	public void mudarNomeAgente(String nome, String classe, AgentContainer agentContainer) {
-		destruirAgent(agentContainer);
-		criarAgent(nome, classe, agentContainer);
+	public void mudarNomeAgente(String nomeNovo, String classe, AgentContainer agentContainer) {
+		destruirAgent(agentContainer, AgentPainelDeControle.nomeAgente );
+		criarAgent(nomeNovo, classe, agentContainer);
+		AgentPainelDeControle.nomeAgente = nomeNovo;
 	}
 
 	public String getNomeAgente() {

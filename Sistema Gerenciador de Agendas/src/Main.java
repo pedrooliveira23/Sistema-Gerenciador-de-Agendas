@@ -19,8 +19,8 @@ public class Main {
 		ContainerController container = runtime.createAgentContainer(profile);
 		AgentController ag;
 		try {
-			ag = container.createNewAgent("Gui", 
-					"model.agents.AgentPainelDeControle", 
+			ag = container.createNewAgent("PainelDeControleGUI", 
+					"model.agents.gui.AgentPainelDeControle", 
 					new Object[] {});
 			ag.start();
 		} catch (StaleProxyException e) {

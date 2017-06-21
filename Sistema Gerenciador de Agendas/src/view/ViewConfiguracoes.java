@@ -14,8 +14,8 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import controller.ControllerJadeContainer;
 import jade.gui.GuiEvent;
-import model.agents.AgentConfiguracoes;
-import model.agents.AgentPainelDeControle;
+import model.agents.gui.AgentConfiguracoes;
+import model.agents.gui.AgentPainelDeControle;
 
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;

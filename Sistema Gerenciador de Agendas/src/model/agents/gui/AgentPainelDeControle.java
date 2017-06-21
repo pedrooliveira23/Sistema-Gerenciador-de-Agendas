@@ -1,4 +1,4 @@
-package model.agents;
+package model.agents.gui;
 
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
@@ -8,6 +8,7 @@ import view.ViewPainelDeControle;
 public class AgentPainelDeControle extends GuiAgent {
 	private BoPainelDeControle painelDeControle = new BoPainelDeControle();
 	private ViewPainelDeControle painel;
+	public static String nomeAgente = "Visitante" + (int)(Math.random() * 9999999);
 	
 	public static final int CONSULTAR = 0;
 	public static final int SOLICITAR = 1;
@@ -17,7 +18,13 @@ public class AgentPainelDeControle extends GuiAgent {
 	protected void setup() {
 		painel = new ViewPainelDeControle(this);
 		painel.getFrame().setVisible(true);
-		this.CriarAgent("Visitante" + (int)(Math.random() * 9999999), "model.agents.AgentAgenda");
+		this.CriarAgent(nomeAgente, "model.agents.AgentAgenda");
+		this.CriarAgent("A", "model.agents.AgentAgenda");
+		this.CriarAgent("B", "model.agents.AgentAgenda");
+		this.CriarAgent("C", "model.agents.AgentAgenda");
+		this.CriarAgent("D", "model.agents.AgentAgenda");
+		this.CriarAgent("E", "model.agents.AgentAgenda");
+		this.CriarAgent("F", "model.agents.AgentAgenda");
 	}
 
 	private void CriarAgent(String nome, String classe) {
@@ -38,9 +45,10 @@ public class AgentPainelDeControle extends GuiAgent {
 			case CONSULTAR: 
 				break;
 			case SOLICITAR:
+				CriarAgent("SolicitarAgendamentoGUI", "model.agents.gui.AgentSolicitarAgendamento");
 				break;
 			case CONFIGURAR:
-				CriarAgent("ConfiguracaoGUI", "model.agents.AgentConfiguracoes");
+				CriarAgent("ConfiguracaoGUI", "model.agents.gui.AgentConfiguracoes");
 				break;
 			case SAIR:
 				painel.getFrame().dispose();
@@ -49,6 +57,14 @@ public class AgentPainelDeControle extends GuiAgent {
 				break;
 		}
 		
+	}
+
+	public String getNomeAgente() {
+		return nomeAgente;
+	}
+
+	public void setNomeAgente(String nomeAgente) {
+		this.nomeAgente = nomeAgente;
 	}
 }
 
