@@ -13,23 +13,28 @@ import model.agents.gui.AgentPainelDeControle;
 import view.ViewPainelDeControle;
 
 public class BoPainelDeControle {
-	private String nomeAgente;
 
 	public void encerrar(ViewPainelDeControle painel) {
 
 	}
-	
+
 	public void criarAgent(String nome, String classe, AgentContainer agentContainer) {
 		try {
-			AgentController ag = agentContainer.createNewAgent(nome, 
-					classe, 
-					new Object[] {});//arguments
-			ag.start();
-			setNomeAgente(nome);
-		} catch (StaleProxyException e) {
-			e.printStackTrace();
+			agentContainer.getAgent(nome);
+			if (classe.equals("model.agents.AgentAgenda")) {
+				AgentPainelDeControle.nomeAgente = nome;
+			}
+		} catch (ControllerException ex) {
+			try {
+				AgentController ag = agentContainer.createNewAgent(nome, 
+						classe, 
+						new Object[] {});//arguments
+				ag.start();
+			} catch (StaleProxyException e) {
+				e.printStackTrace();
+			}
+			ex.printStackTrace();
 		}
-
 	}
 
 	public void destruirAgent(AgentContainer agentContainer, String nomeAnterior){
@@ -47,14 +52,4 @@ public class BoPainelDeControle {
 		criarAgent(nomeNovo, classe, agentContainer);
 		AgentPainelDeControle.nomeAgente = nomeNovo;
 	}
-
-	public String getNomeAgente() {
-		return nomeAgente;
-	}
-
-	public void setNomeAgente(String nomeAgente) {
-		this.nomeAgente = nomeAgente;
-	}
-
-
 }

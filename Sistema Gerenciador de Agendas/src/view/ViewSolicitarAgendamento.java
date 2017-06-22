@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 public class ViewSolicitarAgendamento {
 
@@ -42,6 +43,7 @@ public class ViewSolicitarAgendamento {
 	 */
 	private AgentSolicitarAgendamento controller;
 	private DefaultListModel listaDeParticipantes;
+	private JTextField textField;
 
 
 	/**
@@ -68,20 +70,20 @@ public class ViewSolicitarAgendamento {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 419, 444);
+		frame.setBounds(100, 100, 420, 535);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		calendar = new JCalendar();
 		frame.getContentPane().add(calendar);
-		calendar.setBounds(10, 10, 240, 240);
+		calendar.setBounds(10, 49, 240, 310);
 
 		String[] horas = new String[24];
 		for(int i=0; i<24;i++) {
 			horas[i] = Integer.toString(i+1);
 		}
 		JComboBox cbHoras = new JComboBox(horas);
-		cbHoras.setBounds(262, 37, 65, 24);
+		cbHoras.setBounds(262, 168, 65, 24);
 		frame.getContentPane().add(cbHoras);		
 
 		String[] minutos = new String[60];
@@ -89,30 +91,30 @@ public class ViewSolicitarAgendamento {
 			minutos[i] = Integer.toString(i+1);
 		}
 		JComboBox cbMinutos = new JComboBox(minutos);
-		cbMinutos.setBounds(339, 37, 65, 24);
+		cbMinutos.setBounds(339, 168, 65, 24);
 		frame.getContentPane().add(cbMinutos);
 
 		JLabel lblHora = new JLabel("Horas:");
-		lblHora.setBounds(268, 10, 59, 15);
+		lblHora.setBounds(262, 141, 59, 15);
 		frame.getContentPane().add(lblHora);
 
 		JLabel lblMinutos = new JLabel("Minutos:");
-		lblMinutos.setBounds(339, 10, 74, 15);
+		lblMinutos.setBounds(339, 141, 74, 15);
 		frame.getContentPane().add(lblMinutos);
 
-		JLabel lblParticipantes = new JLabel("Participantes");
-		lblParticipantes.setBounds(268, 73, 110, 15);
+		JLabel lblParticipantes = new JLabel("Participantes:");
+		lblParticipantes.setBounds(268, 204, 110, 15);
 		frame.getContentPane().add(lblParticipantes);
 
 		JComboBox comboBox = new JComboBox(controller.obterParticipantes());
-		comboBox.setBounds(262, 90, 142, 24);
+		comboBox.setBounds(262, 231, 142, 24);
 		frame.getContentPane().add(comboBox);
 
 		JScrollPane scrollPane = new JScrollPane();
-		JList list = new JList();
-		scrollPane.setBounds(262, 163, 142, 87);
-		scrollPane.setViewportView(list);
+		scrollPane.setBounds(262, 304, 142, 87);
 		frame.getContentPane().add(scrollPane);
+		JList list = new JList();
+		scrollPane.setViewportView(list);
 		list.setModel(listaDeParticipantes);
 
 		JButton button = new JButton("+");
@@ -123,7 +125,7 @@ public class ViewSolicitarAgendamento {
 				}
 			}
 		});
-		button.setBounds(360, 126, 44, 25);
+		button.setBounds(360, 267, 44, 25);
 		frame.getContentPane().add(button);
 
 		JButton button_1 = new JButton("-");
@@ -136,7 +138,7 @@ public class ViewSolicitarAgendamento {
 				}
 			}
 		});
-		button_1.setBounds(262, 126, 44, 25);
+		button_1.setBounds(265, 267, 44, 25);
 		frame.getContentPane().add(button_1);
 
 		JButton btnSolicitar = new JButton("Solicitar");
@@ -146,7 +148,7 @@ public class ViewSolicitarAgendamento {
 				controller.postGuiEvent(evento);
 			}
 		});
-		btnSolicitar.setBounds(268, 381, 136, 25);
+		btnSolicitar.setBounds(268, 475, 136, 25);
 		frame.getContentPane().add(btnSolicitar);
 
 		JButton btnCancelar = new JButton("Cancelar");
@@ -156,18 +158,58 @@ public class ViewSolicitarAgendamento {
 				controller.postGuiEvent(evento);
 			}
 		});
-		btnCancelar.setBounds(10, 381, 117, 25);
+		btnCancelar.setBounds(10, 475, 117, 25);
 		frame.getContentPane().add(btnCancelar);
 		
 		JLabel lblObjetivo = new JLabel("Objetivo:");
-		lblObjetivo.setBounds(10, 262, 70, 15);
+		lblObjetivo.setBounds(10, 398, 70, 15);
 		frame.getContentPane().add(lblObjetivo);
 		
 		JScrollPane scrollPaneTextArea = new JScrollPane();
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		scrollPaneTextArea.setBounds(10, 282, 394, 87);
-		scrollPaneTextArea.setViewportView(textArea);
+		scrollPaneTextArea.setBounds(10, 416, 394, 47);
 		frame.getContentPane().add(scrollPaneTextArea);
+		JTextArea textArea = new JTextArea();
+		scrollPaneTextArea.setViewportView(textArea);
+		textArea.setLineWrap(true);
+		
+		JLabel lblTrmino = new JLabel("Término");
+		lblTrmino.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTrmino.setBounds(296, 122, 70, 15);
+		frame.getContentPane().add(lblTrmino);
+		
+		JLabel label = new JLabel("Minutos:");
+		label.setBounds(339, 66, 74, 15);
+		frame.getContentPane().add(label);
+		
+		JComboBox comboBox_1 = new JComboBox(new Object[]{});
+		comboBox_1.setBounds(339, 93, 65, 24);
+		frame.getContentPane().add(comboBox_1);
+		
+		JComboBox comboBox_2 = new JComboBox(new Object[]{});
+		comboBox_2.setBounds(262, 93, 65, 24);
+		frame.getContentPane().add(comboBox_2);
+		
+		JLabel label_1 = new JLabel("Horas:");
+		label_1.setBounds(262, 66, 59, 15);
+		frame.getContentPane().add(label_1);
+		
+		JLabel lblIncio = new JLabel("Início");
+		lblIncio.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIncio.setBounds(296, 49, 70, 15);
+		frame.getContentPane().add(lblIncio);
+		
+		JLabel lblSolicitarAgendamento = new JLabel("Solicitar Agendamento");
+		lblSolicitarAgendamento.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSolicitarAgendamento.setBounds(10, 12, 395, 15);
+		frame.getContentPane().add(lblSolicitarAgendamento);
+		
+		JLabel lblLocal = new JLabel("Local:");
+		lblLocal.setBounds(10, 371, 52, 15);
+		frame.getContentPane().add(lblLocal);
+		
+		textField = new JTextField();
+		textField.setBounds(57, 371, 193, 19);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 	}
 }
