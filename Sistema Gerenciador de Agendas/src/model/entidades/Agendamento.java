@@ -1,13 +1,30 @@
 package model.entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import model.agents.AgentAgenda;
 
 public class Agendamento {
 	private Date data;
-	private String Objetivo;
-	private AgentAgenda[] participantes;
+	private int horaInicial;
+	private int horaFinal;
+	private int minutoInicial;
+	private int minutoFinal;
+	private String local;
+	private String objetivo;
+	private Object[] participantes;
+	
+	public Agendamento(Date data, int horaInicial, int horaFinal, int minutoInicial, int minutoFinal, String local, String objetivo, Object[] participantes2) {
+		this.data = data;
+		this.horaInicial = horaInicial;
+		this.horaFinal = horaFinal;
+		this.minutoInicial = minutoInicial;
+		this.minutoFinal = minutoFinal;
+		this.local = local;
+		this.objetivo = objetivo;
+		this.participantes = participantes2;
+	}
 	
 	public Date getData() {
 		return data;
@@ -15,16 +32,46 @@ public class Agendamento {
 	public void setData(Date data) {
 		this.data = data;
 	}
+	public int getHoraInicial() {
+		return horaInicial;
+	}
+	public void setHoraInicial(int horaInicial) {
+		this.horaInicial = horaInicial;
+	}
+	public int getHoraFinal() {
+		return horaFinal;
+	}
+	public void setHoraFinal(int horaFinal) {
+		this.horaFinal = horaFinal;
+	}
+	public int getMinutoInicial() {
+		return minutoInicial;
+	}
+	public void setMinutoInicial(int minutoInicial) {
+		this.minutoInicial = minutoInicial;
+	}
+	public int getMinutoFinal() {
+		return minutoFinal;
+	}
+	public void setMinutoFinal(int minutoFinal) {
+		this.minutoFinal = minutoFinal;
+	}
+	public String getLocal() {
+		return local;
+	}
+	public void setLocal(String local) {
+		this.local = local;
+	}
 	public String getObjetivo() {
-		return Objetivo;
+		return objetivo;
 	}
 	public void setObjetivo(String objetivo) {
-		Objetivo = objetivo;
+		this.objetivo = objetivo;
 	}
-	public AgentAgenda[] getParticipantes() {
+	public Object[] getParticipantes() {
 		return participantes;
 	}
-	public void setParticipantes(AgentAgenda[] participantes) {
+	public void setParticipantes(Object[] participantes) {
 		this.participantes = participantes;
 	}
 }

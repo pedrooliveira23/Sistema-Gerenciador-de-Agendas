@@ -33,7 +33,7 @@ public class FazerCheckIn extends Behaviour{
 
 	@Override
 	public boolean done() {
-		System.out.println("Check-In Feito!");
+		System.out.println("Check-In " + myAgent.getLocalName() );
 		return true;
 	}
 

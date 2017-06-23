@@ -4,6 +4,8 @@ package model.agents.gui;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gson.Gson;
+
 import jade.core.AID;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -13,6 +15,7 @@ import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 import model.bo.BoSolicitarAgendamento;
+import model.entidades.Agendamento;
 import view.ViewPainelDeControle;
 import view.ViewSolicitarAgendamento;
 
@@ -22,34 +25,14 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 	private AID AIDagenteLocal;
 	public static final int SOLICITAR = 0;
 	public static final int CANCELAR = 1;
-	
-	public Date getDataHora() {
-		return dataHora;
-	}
-
-	public void setDataHora(Date dataHora) {
-		this.dataHora = dataHora;
-	}
-
-	public ArrayList<String> getParticipantes() {
-		return participantes;
-	}
-
-	public void setParticipantes(ArrayList<String> participantes) {
-		this.participantes = participantes;
-	}
-
-	public String getObjetivo() {
-		return objetivo;
-	}
-
-	public void setObjetivo(String objetivo) {
-		this.objetivo = objetivo;
-	}
-
-	private Date dataHora;
-	private ArrayList<String> participantes;
-	private String objetivo;
+	public Date data;
+	public int horaInicial;
+	public int horaFinal;
+	public int minutoInicial;
+	public int minutoFinal;
+	public String local;
+	public String objetivo;
+	public Object[] participantes;
 
 	protected void setup() {
 		solicitarAgendamento = new ViewSolicitarAgendamento(this);
@@ -88,11 +71,10 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 	protected void onGuiEvent(GuiEvent arg0) {
 		switch (arg0.getType()) {
 		case SOLICITAR:
-			sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), AIDagenteLocal,"Portugues",
-                    "Agendamento {Data: " + dataHora.getDate() + ", "
-                    		+ "Hora: " + dataHora.getTime() + ", "
-                    				+ "Objetivo: " + objetivo + ", "
-                    + "}");
+			Agendamento agendamento = new Agendamento(data, horaInicial, horaFinal, minutoInicial, minutoFinal, local, objetivo, participantes);
+			Gson gson = new Gson();
+			String msg = gson.toJson(agendamento);
+			sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), AIDagenteLocal,"Portugues",msg);
 			break;
 		case CANCELAR:
 			solicitarAgendamento.getFrame().dispose();

@@ -33,7 +33,6 @@ public class BoPainelDeControle {
 			} catch (StaleProxyException e) {
 				e.printStackTrace();
 			}
-			ex.printStackTrace();
 		}
 	}
 

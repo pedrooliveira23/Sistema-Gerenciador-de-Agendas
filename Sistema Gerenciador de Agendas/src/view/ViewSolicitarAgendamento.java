@@ -142,12 +142,6 @@ public class ViewSolicitarAgendamento {
 		frame.getContentPane().add(button_1);
 
 		JButton btnSolicitar = new JButton("Solicitar");
-		btnSolicitar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GuiEvent evento = new GuiEvent(null, controller.SOLICITAR);
-				controller.postGuiEvent(evento);
-			}
-		});
 		btnSolicitar.setBounds(268, 475, 136, 25);
 		frame.getContentPane().add(btnSolicitar);
 
@@ -181,11 +175,11 @@ public class ViewSolicitarAgendamento {
 		label.setBounds(339, 66, 74, 15);
 		frame.getContentPane().add(label);
 		
-		JComboBox comboBox_1 = new JComboBox(new Object[]{});
+		JComboBox comboBox_1 = new JComboBox(horas);
 		comboBox_1.setBounds(339, 93, 65, 24);
 		frame.getContentPane().add(comboBox_1);
 		
-		JComboBox comboBox_2 = new JComboBox(new Object[]{});
+		JComboBox comboBox_2 = new JComboBox(minutos);
 		comboBox_2.setBounds(262, 93, 65, 24);
 		frame.getContentPane().add(comboBox_2);
 		
@@ -211,5 +205,20 @@ public class ViewSolicitarAgendamento {
 		textField.setBounds(57, 371, 193, 19);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		btnSolicitar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.data = calendar.getDate();
+				controller.horaInicial = Integer.parseInt(comboBox_1.getSelectedItem().toString());
+				controller.horaFinal = Integer.parseInt(cbHoras.getSelectedItem().toString());
+				controller.minutoInicial = Integer.parseInt(comboBox_2.getSelectedItem().toString());
+				controller.minutoFinal = Integer.parseInt(cbMinutos.getSelectedItem().toString());
+				controller.participantes = listaDeParticipantes.toArray();
+				controller.local = textField.getText();
+				controller.objetivo = textArea.getText();
+				GuiEvent evento = new GuiEvent(null, controller.SOLICITAR);
+				controller.postGuiEvent(evento);
+			}
+		});
 	}
 }

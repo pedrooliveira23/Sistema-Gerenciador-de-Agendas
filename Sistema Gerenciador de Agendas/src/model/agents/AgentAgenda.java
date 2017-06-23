@@ -38,31 +38,21 @@ public class AgentAgenda extends Agent {
         });
 		
 	}
+	
+    protected void takeDown() {
+        try {
+            DFService.deregister(this);
+            System.out.println("CheckOut " + this.getLocalName());
+        } catch (FIPAException fe) {
+            fe.printStackTrace();
+        }
+       
+    }
 
 	public ArrayList<Agendamento> getAgendamentos() {
 		return agendamentos;
 	}
 	public void setAgendamentos(ArrayList<Agendamento> agendamentos) {
 		this.agendamentos = agendamentos;
-	}
-
-	public AID[] obterAgentes() {
-		AID[] agendas = null;
-		DFAgentDescription dfd = new DFAgentDescription();
-		ServiceDescription sd  = new ServiceDescription();
-		sd.setType( "Agenda" );
-		dfd.addServices(sd);
-
-		DFAgentDescription[] result;
-		try {
-			result = DFService.search(this, dfd);        
-			System.out.println(result.length + " results" );
-			if (result.length>0) {
-				System.out.println(" " + result[0].getName() );
-			}
-		} catch (FIPAException e) {
-			e.printStackTrace();
-		}
-		return agendas;
 	}
 }
