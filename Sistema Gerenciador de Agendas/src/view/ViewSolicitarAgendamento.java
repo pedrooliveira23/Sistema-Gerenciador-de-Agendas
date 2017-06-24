@@ -86,9 +86,9 @@ public class ViewSolicitarAgendamento {
 		cbHoras.setBounds(262, 168, 65, 24);
 		frame.getContentPane().add(cbHoras);		
 
-		String[] minutos = new String[60];
-		for(int i=0; i<60;i++) {
-			minutos[i] = Integer.toString(i+1);
+		String[] minutos = new String[61];
+		for(int i=0; i<=60;i++) {
+			minutos[i] = Integer.toString(i);
 		}
 		JComboBox cbMinutos = new JComboBox(minutos);
 		cbMinutos.setBounds(339, 168, 65, 24);
@@ -154,64 +154,64 @@ public class ViewSolicitarAgendamento {
 		});
 		btnCancelar.setBounds(10, 475, 117, 25);
 		frame.getContentPane().add(btnCancelar);
-		
+
 		JLabel lblObjetivo = new JLabel("Objetivo:");
 		lblObjetivo.setBounds(10, 398, 70, 15);
 		frame.getContentPane().add(lblObjetivo);
-		
+
 		JScrollPane scrollPaneTextArea = new JScrollPane();
 		scrollPaneTextArea.setBounds(10, 416, 394, 47);
 		frame.getContentPane().add(scrollPaneTextArea);
 		JTextArea textArea = new JTextArea();
 		scrollPaneTextArea.setViewportView(textArea);
 		textArea.setLineWrap(true);
-		
+
 		JLabel lblTrmino = new JLabel("Término");
 		lblTrmino.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrmino.setBounds(296, 122, 70, 15);
 		frame.getContentPane().add(lblTrmino);
-		
+
 		JLabel label = new JLabel("Minutos:");
 		label.setBounds(339, 66, 74, 15);
 		frame.getContentPane().add(label);
-		
-		JComboBox comboBox_1 = new JComboBox(horas);
-		comboBox_1.setBounds(339, 93, 65, 24);
-		frame.getContentPane().add(comboBox_1);
-		
-		JComboBox comboBox_2 = new JComboBox(minutos);
-		comboBox_2.setBounds(262, 93, 65, 24);
-		frame.getContentPane().add(comboBox_2);
-		
+
+		JComboBox cbMinutoInicial = new JComboBox(minutos);
+		cbMinutoInicial.setBounds(339, 93, 65, 24);
+		frame.getContentPane().add(cbMinutoInicial);
+
+		JComboBox cbHoraInicial = new JComboBox(horas);
+		cbHoraInicial.setBounds(262, 93, 65, 24);
+		frame.getContentPane().add(cbHoraInicial);
+
 		JLabel label_1 = new JLabel("Horas:");
 		label_1.setBounds(262, 66, 59, 15);
 		frame.getContentPane().add(label_1);
-		
+
 		JLabel lblIncio = new JLabel("Início");
 		lblIncio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIncio.setBounds(296, 49, 70, 15);
 		frame.getContentPane().add(lblIncio);
-		
+
 		JLabel lblSolicitarAgendamento = new JLabel("Solicitar Agendamento");
 		lblSolicitarAgendamento.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSolicitarAgendamento.setBounds(10, 12, 395, 15);
 		frame.getContentPane().add(lblSolicitarAgendamento);
-		
+
 		JLabel lblLocal = new JLabel("Local:");
 		lblLocal.setBounds(10, 371, 52, 15);
 		frame.getContentPane().add(lblLocal);
-		
+
 		textField = new JTextField();
 		textField.setBounds(57, 371, 193, 19);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		
+
 		btnSolicitar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.data = calendar.getDate();
-				controller.horaInicial = Integer.parseInt(comboBox_1.getSelectedItem().toString());
+				controller.data = calendar.getDayChooser().getDay() + "/"+calendar.getMonthChooser().getMonth() + "/" + calendar.getYearChooser().getYear();
+				controller.horaInicial = Integer.parseInt(cbHoraInicial.getSelectedItem().toString());
 				controller.horaFinal = Integer.parseInt(cbHoras.getSelectedItem().toString());
-				controller.minutoInicial = Integer.parseInt(comboBox_2.getSelectedItem().toString());
+				controller.minutoInicial = Integer.parseInt(cbMinutoInicial.getSelectedItem().toString());
 				controller.minutoFinal = Integer.parseInt(cbMinutos.getSelectedItem().toString());
 				controller.participantes = listaDeParticipantes.toArray();
 				controller.local = textField.getText();

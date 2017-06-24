@@ -2,19 +2,14 @@ package model.agents;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
-import jade.domain.AMSService;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.AMSAgentDescription;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.SearchConstraints;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
-import jade.wrapper.ContainerController;
-import jade.wrapper.ControllerException;
 import model.agentes.comportamentos.FazerCheckIn;
 import model.entidades.Agendamento;
 
@@ -26,13 +21,21 @@ public class AgentAgenda extends Agent {
 		setAgendamentos(new ArrayList());
 		addBehaviour(new FazerCheckIn());
 		
-        addBehaviour(new TickerBehaviour(this, 5000) {
+        addBehaviour(new TickerBehaviour(this, 500) {
             
         protected void onTick() {
                 ACLMessage msgRx = receive();
                 if (msgRx != null) {
-                    System.out.println(msgRx.getSender().getLocalName() + " me mandou mensagem:" +
-                            msgRx.getContent());
+                    if(msgRx.getContent().startsWith("Agendamento:")) {
+                    	String msg = msgRx.getContent().replaceAll("Agendamento:", "");
+                    	Gson gson = new Gson();
+                    	Agendamento agendamento = gson.fromJson(msg, Agendamento.class);
+                    	if(agendamentos.contains(agendamento)) {
+                    		sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Não tem");
+                    	} else {
+                    		agendamentos.add(agendamento);
+                    	}
+                    }
                 }
             }
         });
@@ -54,5 +57,14 @@ public class AgentAgenda extends Agent {
 	}
 	public void setAgendamentos(ArrayList<Agendamento> agendamentos) {
 		this.agendamentos = agendamentos;
+	}
+	
+	protected void sendMessageRespostaSolicitacao(ACLMessage msgTxParam, AID aidParam, String languageParam, String contentParam) {
+		ACLMessage msgTx = msgTxParam;
+		msgTx.addReceiver(aidParam);
+		msgTx.setLanguage(languageParam);
+		msgTx.setContent(contentParam);
+		send(msgTx);
+		System.out.println(getAID().getName() + ": enviou mensagem: " + msgTx.toString());
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 import com.google.gson.Gson;
 
 import jade.core.AID;
+import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -25,7 +26,7 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 	private AID AIDagenteLocal;
 	public static final int SOLICITAR = 0;
 	public static final int CANCELAR = 1;
-	public Date data;
+	public String data;
 	public int horaInicial;
 	public int horaFinal;
 	public int minutoInicial;
@@ -37,6 +38,16 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 	protected void setup() {
 		solicitarAgendamento = new ViewSolicitarAgendamento(this);
 		solicitarAgendamento.getFrame().setVisible(true);
+
+		addBehaviour(new TickerBehaviour(this, 500) {
+
+			protected void onTick() {
+				ACLMessage msgRx = receive();
+				if (msgRx != null) {
+					System.out.println(msgRx.getContent());
+				}
+			}
+		});
 	}
 
 	public String[] obterParticipantes() {
@@ -54,10 +65,10 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 			System.out.println(result.length + " results" );
 			listaAgendas = new String[result.length];
 			for(int i = 0; i < result.length; i++) {
-				System.out.println(" " + result[0].getName() );
+				System.out.println(" " + result[i].getName() );
 				listaAgendas[i] = result[i].getName().getLocalName();
-				if(result[0].getName().getLocalName().equals(AgentPainelDeControle.nomeAgente)) {
-					AIDagenteLocal = result[0].getName();
+				if(result[i].getName().getLocalName().equals(AgentPainelDeControle.nomeAgente)) {
+					AIDagenteLocal = result[i].getName();
 				}
 			}
 		} catch (FIPAException e) {
@@ -73,7 +84,9 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 		case SOLICITAR:
 			Agendamento agendamento = new Agendamento(data, horaInicial, horaFinal, minutoInicial, minutoFinal, local, objetivo, participantes);
 			Gson gson = new Gson();
-			String msg = gson.toJson(agendamento);
+			String msg = "Agendamento:";
+			msg += gson.toJson(agendamento);
+
 			sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), AIDagenteLocal,"Portugues",msg);
 			break;
 		case CANCELAR:

@@ -6,7 +6,7 @@ import java.util.Date;
 import model.agents.AgentAgenda;
 
 public class Agendamento {
-	private Date data;
+	private String data;
 	private int horaInicial;
 	private int horaFinal;
 	private int minutoInicial;
@@ -15,8 +15,8 @@ public class Agendamento {
 	private String objetivo;
 	private Object[] participantes;
 	
-	public Agendamento(Date data, int horaInicial, int horaFinal, int minutoInicial, int minutoFinal, String local, String objetivo, Object[] participantes2) {
-		this.data = data;
+	public Agendamento(String data2, int horaInicial, int horaFinal, int minutoInicial, int minutoFinal, String local, String objetivo, Object[] participantes2) {
+		this.data = data2;
 		this.horaInicial = horaInicial;
 		this.horaFinal = horaFinal;
 		this.minutoInicial = minutoInicial;
@@ -26,10 +26,10 @@ public class Agendamento {
 		this.participantes = participantes2;
 	}
 	
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 	public int getHoraInicial() {
