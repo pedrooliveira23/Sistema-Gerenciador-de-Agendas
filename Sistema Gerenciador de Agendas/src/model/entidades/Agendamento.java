@@ -14,8 +14,9 @@ public class Agendamento {
 	private String local;
 	private String objetivo;
 	private Object[] participantes;
+	private String solicitante;
 	
-	public Agendamento(String data2, int horaInicial, int horaFinal, int minutoInicial, int minutoFinal, String local, String objetivo, Object[] participantes2) {
+	public Agendamento(String data2, int horaInicial, int horaFinal, int minutoInicial, int minutoFinal, String local, String objetivo, Object[] participantes2, String solicitante) {
 		this.data = data2;
 		this.horaInicial = horaInicial;
 		this.horaFinal = horaFinal;
@@ -24,6 +25,7 @@ public class Agendamento {
 		this.local = local;
 		this.objetivo = objetivo;
 		this.participantes = participantes2;
+		this.solicitante = solicitante;
 	}
 	
 	public String getData() {

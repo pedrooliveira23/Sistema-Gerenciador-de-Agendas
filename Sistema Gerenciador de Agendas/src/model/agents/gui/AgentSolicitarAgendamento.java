@@ -4,6 +4,8 @@ package model.agents.gui;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 
 import jade.core.AID;
@@ -23,7 +25,7 @@ import view.ViewSolicitarAgendamento;
 public class AgentSolicitarAgendamento extends GuiAgent {
 	private BoSolicitarAgendamento boSolicitarAgendamento = new BoSolicitarAgendamento();
 	private ViewSolicitarAgendamento solicitarAgendamento;
-	private AID AIDagenteLocal;
+	private AID AIDAgenteLocal;
 	public static final int SOLICITAR = 0;
 	public static final int CANCELAR = 1;
 	public String data;
@@ -40,11 +42,43 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 		solicitarAgendamento.getFrame().setVisible(true);
 
 		addBehaviour(new TickerBehaviour(this, 500) {
+			String alerta = "";
+			int cont = 0;
 
 			protected void onTick() {
 				ACLMessage msgRx = receive();
 				if (msgRx != null) {
-					System.out.println(msgRx.getContent());
+					if(msgRx.getContent().startsWith("Agendamento:")) {
+						String msg = msgRx.getContent().replaceAll("Agendamento:", "");
+						if(msg.equals("true")) {
+							alerta += msgRx.getSender().getLocalName() + " poderá participar da reunião.\n";
+							cont++;
+						} else {
+							int duracao = ((horaFinal*60)+minutoFinal - (horaInicial*60)+minutoInicial);
+							
+							String[] horarios = msg.split(";");
+							
+							String resp = "";
+							
+							if(horarios.length == 1 && horarios[0].equals("")) {							
+								alerta += msgRx.getSender().getLocalName() + " não possui disponiblidade no horário indicado.\n";
+								cont++;
+							} else {
+								for(int i = 0; i < horarios.length; i++){
+									resp += (Integer.parseInt(horarios[i])/60) + " até " + ((Integer.parseInt(horarios[i])+duracao)/60) +", ";
+								}
+								alerta += msgRx.getSender().getLocalName() + " estará ocupado neste horário, porém estará disponível das "+resp +"\n";
+								cont++;
+							}
+						}
+					}
+				}
+				if(participantes != null) {
+					if(cont == participantes.length) {
+						JOptionPane.showMessageDialog(null, alerta);
+						alerta="";
+						cont=0;
+					}
 				}
 			}
 		});
@@ -68,7 +102,7 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 				System.out.println(" " + result[i].getName() );
 				listaAgendas[i] = result[i].getName().getLocalName();
 				if(result[i].getName().getLocalName().equals(AgentPainelDeControle.nomeAgente)) {
-					AIDagenteLocal = result[i].getName();
+					AIDAgenteLocal = result[i].getName();
 				}
 			}
 		} catch (FIPAException e) {
@@ -82,12 +116,39 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 	protected void onGuiEvent(GuiEvent arg0) {
 		switch (arg0.getType()) {
 		case SOLICITAR:
-			Agendamento agendamento = new Agendamento(data, horaInicial, horaFinal, minutoInicial, minutoFinal, local, objetivo, participantes);
+			Agendamento agendamento = new Agendamento(data, horaInicial, horaFinal, minutoInicial, minutoFinal, local, objetivo, participantes, AIDAgenteLocal.getLocalName());
 			Gson gson = new Gson();
 			String msg = "Agendamento:";
 			msg += gson.toJson(agendamento);
 
-			sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), AIDagenteLocal,"Portugues",msg);
+			DFAgentDescription dfd = new DFAgentDescription();
+			ServiceDescription sd  = new ServiceDescription();
+			sd.setType( "Agenda" );
+			dfd.addServices(sd);
+
+			DFAgentDescription[] result;
+			try {
+				result = DFService.search(this, dfd);
+				int pos = 0;
+				AID[] participantes = new AID[result.length];
+				for(int i = 0; i < result.length; i++) {
+					for(int j = 0; j< agendamento.getParticipantes().length; j++) {
+						if(result[i].getName().getLocalName().equals(agendamento.getParticipantes()[j].toString())) {
+							participantes[pos] = result[i].getName();
+							pos++;
+						}
+					}
+				}
+
+
+				for(int i = 0; i < participantes.length; i++){
+					sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), participantes[i],"Portugues",msg);
+				}
+			} catch (FIPAException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}        
+
 			break;
 		case CANCELAR:
 			solicitarAgendamento.getFrame().dispose();

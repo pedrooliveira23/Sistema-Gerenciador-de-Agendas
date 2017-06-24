@@ -20,37 +20,87 @@ public class AgentAgenda extends Agent {
 	protected void setup() {
 		setAgendamentos(new ArrayList());
 		addBehaviour(new FazerCheckIn());
-		
-        addBehaviour(new TickerBehaviour(this, 500) {
-            
-        protected void onTick() {
-                ACLMessage msgRx = receive();
-                if (msgRx != null) {
-                    if(msgRx.getContent().startsWith("Agendamento:")) {
-                    	String msg = msgRx.getContent().replaceAll("Agendamento:", "");
-                    	Gson gson = new Gson();
-                    	Agendamento agendamento = gson.fromJson(msg, Agendamento.class);
-                    	if(agendamentos.contains(agendamento)) {
-                    		sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Não tem");
-                    	} else {
-                    		agendamentos.add(agendamento);
-                    	}
-                    }
-                }
-            }
-        });
-		
+
+		addBehaviour(new TickerBehaviour(this, 500) {
+
+			protected void onTick() {
+				ACLMessage msgRx = receive();
+				if (msgRx != null) {
+					if(msgRx.getContent().startsWith("Agendamento:")) {
+						trataMensagemSolicitacaoAgendamento(msgRx);
+					}
+				}
+			}
+
+			private void trataMensagemSolicitacaoAgendamento(ACLMessage msgRx) {
+				String msg = msgRx.getContent().replaceAll("Agendamento:", "");
+				Gson gson = new Gson();
+				Agendamento agendamento = gson.fromJson(msg, Agendamento.class);
+				int duracao = ((agendamento.getHoraFinal()*60)+agendamento.getMinutoFinal() - (agendamento.getHoraInicial()*60)+agendamento.getMinutoInicial());
+				int novoInicial = (agendamento.getHoraInicial()*60) + agendamento.getMinutoInicial();
+				int novoFinal = (agendamento.getHoraFinal()*60) + agendamento.getMinutoFinal();
+				int[] listaDeHoras = new int[5];
+				listaDeHoras[0] = podeAgendar(novoInicial, agendamento.getData(), duracao);
+				listaDeHoras[1] = podeAgendar(novoInicial-duracao, agendamento.getData(), duracao);
+				listaDeHoras[2] = podeAgendar(novoInicial-(duracao*2), agendamento.getData(), duracao);
+				listaDeHoras[3] = podeAgendar(novoFinal+duracao, agendamento.getData(), duracao);
+				listaDeHoras[4] = podeAgendar(novoFinal+(duracao*2), agendamento.getData(), duracao);
+
+
+
+				if(novoInicial == listaDeHoras[0]) {
+					agendamentos.add(agendamento);
+					sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Agendamento:true"); 
+
+				} else {
+					String resp = "";
+					for(int i=0;i<listaDeHoras.length;i++) {
+						if(listaDeHoras[i] > 0 && listaDeHoras[i]/60 <= 24) {
+							resp+=listaDeHoras[i]+";";
+						}
+					}
+					sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Agendamento:"+resp);
+				}
+			}
+
+			private int podeAgendar(int novoInicial,String data, int duracao) {
+
+				for(Agendamento ag : agendamentos) {
+					String dataExistente = ag.getData();
+					String dataNova = data;
+					int existenteInicial = (ag.getHoraInicial()*60) + ag.getMinutoInicial();
+					int existenteFinal = (ag.getHoraFinal()*60) + ag.getMinutoFinal();
+					int novoFinal = novoInicial + duracao;
+
+					if(existenteInicial == novoInicial) {
+						novoInicial = 0;
+					}
+
+					if(existenteInicial < novoInicial) {
+						if (!((novoInicial > existenteFinal) && ((existenteInicial < novoFinal) && (novoFinal > existenteFinal)))) {
+							novoInicial = 0;
+						}
+					} else {
+						if ((novoInicial > existenteFinal) && ((existenteInicial < novoFinal) && (novoFinal > existenteFinal))) {
+							novoInicial = 0;
+						}
+					}
+				}
+				return novoInicial;
+			}
+		});
+
 	}
-	
-    protected void takeDown() {
-        try {
-            DFService.deregister(this);
-            System.out.println("CheckOut " + this.getLocalName());
-        } catch (FIPAException fe) {
-            fe.printStackTrace();
-        }
-       
-    }
+
+	protected void takeDown() {
+		try {
+			DFService.deregister(this);
+			System.out.println("CheckOut " + this.getLocalName());
+		} catch (FIPAException fe) {
+			fe.printStackTrace();
+		}
+
+	}
 
 	public ArrayList<Agendamento> getAgendamentos() {
 		return agendamentos;
@@ -58,7 +108,7 @@ public class AgentAgenda extends Agent {
 	public void setAgendamentos(ArrayList<Agendamento> agendamentos) {
 		this.agendamentos = agendamentos;
 	}
-	
+
 	protected void sendMessageRespostaSolicitacao(ACLMessage msgTxParam, AID aidParam, String languageParam, String contentParam) {
 		ACLMessage msgTx = msgTxParam;
 		msgTx.addReceiver(aidParam);
