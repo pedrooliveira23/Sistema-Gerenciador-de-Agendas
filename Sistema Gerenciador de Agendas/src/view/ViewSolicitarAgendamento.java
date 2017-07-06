@@ -7,7 +7,6 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JCalendar;
 
-import controller.ControllerJadeContainer;
 import jade.gui.GuiEvent;
 import model.agents.gui.AgentSolicitarAgendamento;
 

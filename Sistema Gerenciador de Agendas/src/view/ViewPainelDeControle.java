@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import controller.ControllerJadeContainer;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -45,6 +44,12 @@ public class ViewPainelDeControle {
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnConsultarAgendamentos = new JButton("Consultar Agendamentos");
+		btnConsultarAgendamentos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiEvent evento = new GuiEvent(null, controller.CONSULTAR);
+				controller.postGuiEvent(evento);
+			}
+		});
 		btnConsultarAgendamentos.setBounds(12, 112, 252, 25);
 		frame.getContentPane().add(btnConsultarAgendamentos);
 		

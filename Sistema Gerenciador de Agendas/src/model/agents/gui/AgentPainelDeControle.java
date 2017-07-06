@@ -78,7 +78,8 @@ public class AgentPainelDeControle extends GuiAgent {
 	@Override
 	protected void onGuiEvent(GuiEvent ge) {
 		switch (ge.getType()) {
-		case CONSULTAR: 
+		case CONSULTAR:
+			CriarAgent("ConsultarAgendamentoGUI", "model.agents.gui.AgentConsultarAgendamentos");
 			break;
 		case SOLICITAR:
 			CriarAgent("SolicitarAgendamentoGUI", "model.agents.gui.AgentSolicitarAgendamento");

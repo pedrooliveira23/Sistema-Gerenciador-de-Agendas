@@ -62,7 +62,13 @@ public class AgentAgenda extends Agent {
 						}
 					} else if (msgRx.getContent().equals("Agendar")) {
 						agendamentos.add(agendamento);
+					} else if (msgRx.getContent().equals("Liste Agendamentos")) {
+						Gson gson = new Gson();
+						String msg = "Lista de Agendamentos:";
+						msg += gson.toJson(agendamentos);
+						sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", msg);
 					}
+							
 				}
 			}
 

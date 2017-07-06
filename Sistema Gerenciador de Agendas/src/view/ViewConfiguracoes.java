@@ -12,7 +12,6 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-import controller.ControllerJadeContainer;
 import jade.gui.GuiEvent;
 import model.agents.gui.AgentConfiguracoes;
 import model.agents.gui.AgentPainelDeControle;

@@ -1,6 +1,5 @@
 package model.bo;
 
-import controller.ControllerJadeContainer;
 import jade.Boot;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
