@@ -9,13 +9,17 @@ import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import model.agentes.comportamentos.FazerCheckIn;
+import model.agents.gui.AgentPainelDeControle;
 import model.entidades.Agendamento;
 
 public class AgentAgenda extends Agent {
-
+	private Agendamento agendamento;
 	private ArrayList<Agendamento> agendamentos = new ArrayList<Agendamento>();
+	private AID senderOriginal;
 
 	protected void setup() {
 		setAgendamentos(new ArrayList());
@@ -28,6 +32,36 @@ public class AgentAgenda extends Agent {
 				if (msgRx != null) {
 					if(msgRx.getContent().startsWith("Agendamento:")) {
 						trataMensagemSolicitacaoAgendamento(msgRx);
+					} else if (msgRx.getContent().startsWith("Confirmar Agendamento")) {
+						senderOriginal = msgRx.getSender();
+						AID[] agendas = null;
+						DFAgentDescription dfd = new DFAgentDescription();
+						ServiceDescription sd  = new ServiceDescription();
+						sd.setType( "Gui" );
+						dfd.addServices(sd);
+
+						DFAgentDescription[] result;
+
+						try {
+							result = DFService.search(myAgent, dfd);        
+							System.out.println(result.length + " results" );
+							for(int i = 0; i < result.length; i++) {
+								if(result[i].getName().getLocalName().equals("PainelDeControleGUI")) {
+									sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), result[i].getName(), "Portugues", "Confirmar Agendamento");
+								}
+							}
+						} catch (FIPAException e) {
+							e.printStackTrace();
+						}
+					} else if (msgRx.getContent().startsWith("Confirmar")) {
+						String msg = msgRx.getContent().replaceAll("Confirmar:", "");
+						if(msg.equals("true")) {
+							sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), senderOriginal, "Portugues", "Confirmar:true");
+						} else {
+							sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), senderOriginal, "Portugues", "Confirmar:false");
+						}
+					} else if (msgRx.getContent().equals("Agendar")) {
+						agendamentos.add(agendamento);
 					}
 				}
 			}
@@ -35,7 +69,7 @@ public class AgentAgenda extends Agent {
 			private void trataMensagemSolicitacaoAgendamento(ACLMessage msgRx) {
 				String msg = msgRx.getContent().replaceAll("Agendamento:", "");
 				Gson gson = new Gson();
-				Agendamento agendamento = gson.fromJson(msg, Agendamento.class);
+				agendamento = gson.fromJson(msg, Agendamento.class);
 				int duracao = ((agendamento.getHoraFinal()*60)+agendamento.getMinutoFinal() - (agendamento.getHoraInicial()*60)+agendamento.getMinutoInicial());
 				int novoInicial = (agendamento.getHoraInicial()*60) + agendamento.getMinutoInicial();
 				int novoFinal = (agendamento.getHoraFinal()*60) + agendamento.getMinutoFinal();
@@ -49,7 +83,6 @@ public class AgentAgenda extends Agent {
 
 
 				if(novoInicial == listaDeHoras[0]) {
-					agendamentos.add(agendamento);
 					sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Agendamento:true"); 
 
 				} else {
