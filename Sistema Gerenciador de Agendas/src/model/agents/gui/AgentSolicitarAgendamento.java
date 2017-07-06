@@ -89,6 +89,10 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 				}
 				if(participantes != null) {
 					if(cont == participantes.length) {
+						if(alerta.contains("não confirmou a participação na reunião")) {
+							alerta +="\nNão será possível agendar a reunião!\n";
+						}
+						
 						JOptionPane.showMessageDialog(null, alerta);
 						
 						if(contAceitosAgentes == participantes.length) {
