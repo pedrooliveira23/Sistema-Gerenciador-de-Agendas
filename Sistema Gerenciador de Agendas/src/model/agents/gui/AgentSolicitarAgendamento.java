@@ -35,7 +35,7 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 	public int minutoFinal;
 	public String local;
 	public String objetivo;
-	public Object[] participantes;
+	public String[] participantes;
 	private Agendamento agendamento;
 	
 	protected void setup() {

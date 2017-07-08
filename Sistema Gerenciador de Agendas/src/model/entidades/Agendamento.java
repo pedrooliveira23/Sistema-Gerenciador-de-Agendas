@@ -13,10 +13,10 @@ public class Agendamento {
 	private int minutoFinal;
 	private String local;
 	private String objetivo;
-	private Object[] participantes;
+	private String[] participantes;
 	private String solicitante;
 	
-	public Agendamento(String data2, int horaInicial, int horaFinal, int minutoInicial, int minutoFinal, String local, String objetivo, Object[] participantes2, String solicitante) {
+	public Agendamento(String data2, int horaInicial, int horaFinal, int minutoInicial, int minutoFinal, String local, String objetivo, String[] participantes2, String solicitante) {
 		this.data = data2;
 		this.horaInicial = horaInicial;
 		this.horaFinal = horaFinal;
@@ -25,7 +25,7 @@ public class Agendamento {
 		this.local = local;
 		this.objetivo = objetivo;
 		this.participantes = participantes2;
-		this.solicitante = solicitante;
+		this.setSolicitante(solicitante);
 	}
 	
 	public String getData() {
@@ -70,10 +70,18 @@ public class Agendamento {
 	public void setObjetivo(String objetivo) {
 		this.objetivo = objetivo;
 	}
-	public Object[] getParticipantes() {
+	public String[] getParticipantes() {
 		return participantes;
 	}
-	public void setParticipantes(Object[] participantes) {
+	public void setParticipantes(String[] participantes) {
 		this.participantes = participantes;
+	}
+
+	public String getSolicitante() {
+		return solicitante;
+	}
+
+	public void setSolicitante(String solicitante) {
+		this.solicitante = solicitante;
 	}
 }

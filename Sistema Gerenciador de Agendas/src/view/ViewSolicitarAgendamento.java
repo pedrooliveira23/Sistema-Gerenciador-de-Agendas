@@ -212,7 +212,10 @@ public class ViewSolicitarAgendamento {
 				controller.horaFinal = Integer.parseInt(cbHoras.getSelectedItem().toString());
 				controller.minutoInicial = Integer.parseInt(cbMinutoInicial.getSelectedItem().toString());
 				controller.minutoFinal = Integer.parseInt(cbMinutos.getSelectedItem().toString());
-				controller.participantes = listaDeParticipantes.toArray();
+				controller.participantes = new String[listaDeParticipantes.size()];
+				for(int i = 0; i < listaDeParticipantes.size(); i++) {
+					controller.participantes[i] = listaDeParticipantes.getElementAt(i).toString();
+				}
 				controller.local = textField.getText();
 				controller.objetivo = textArea.getText();
 				GuiEvent evento = new GuiEvent(null, controller.SOLICITAR);

@@ -3,12 +3,15 @@ package view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.DefaultTableModel;
 
 import jade.gui.GuiEvent;
 import model.agents.gui.AgentConsultarAgendamentos;
@@ -19,6 +22,7 @@ public class ViewConsultarAgendamentos {
 
 	private JFrame frame;
 	private JTable table;
+	private DefaultTableModel tableModel;
 
 	/**
 	 * Launch the application.
@@ -58,7 +62,7 @@ public class ViewConsultarAgendamentos {
 	 */
 	private void initialize() {
 		setFrame(new JFrame());
-		getFrame().setBounds(100, 100, 450, 300);
+		getFrame().setBounds(100, 100, 640, 480);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().getContentPane().setLayout(null);
 		
@@ -67,7 +71,7 @@ public class ViewConsultarAgendamentos {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCancelarAgendamento.setBounds(237, 237, 199, 25);
+		btnCancelarAgendamento.setBounds(433, 417, 199, 25);
 		getFrame().getContentPane().add(btnCancelarAgendamento);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -77,13 +81,19 @@ public class ViewConsultarAgendamentos {
 				controller.postGuiEvent(evento);
 			}
 		});
-		btnCancelar.setBounds(12, 237, 117, 25);
+		btnCancelar.setBounds(12, 417, 117, 25);
 		getFrame().getContentPane().add(btnCancelar);
 		
-		table = new JTable();
+		String[] col = {"Data", "Hr de Inicio",	"Min Início", "Hr Término",	"Min Término", "Solicitante", "Local", "Objetivo", "Participantes"};
+		tableModel = new DefaultTableModel(col, 0);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 12, 620, 400);
+		frame.getContentPane().add(scrollPane);
+
+		table = new JTable(tableModel);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setBounds(12, 12, 424, 213);
-		getFrame().getContentPane().add(table);
+		scrollPane.setViewportView(table);
 	}
 
 	public JFrame getFrame() {
@@ -92,5 +102,13 @@ public class ViewConsultarAgendamentos {
 
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
+	}
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
+	}
+
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
 	}
 }
