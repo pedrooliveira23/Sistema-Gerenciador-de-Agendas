@@ -1,4 +1,4 @@
-package model.bo;
+package cliente.model.bo;
 
 import jade.core.AID;
 import jade.core.Agent;

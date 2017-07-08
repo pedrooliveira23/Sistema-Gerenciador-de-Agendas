@@ -1,4 +1,4 @@
-package view;
+package cliente.view;
 
 import java.awt.EventQueue;
 
@@ -6,12 +6,12 @@ import javax.swing.JFrame;
 
 import jade.Boot;
 import jade.gui.GuiEvent;
-import model.agents.gui.AgentPainelDeControle;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import cliente.model.agents.gui.AgentPainelDeControle;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

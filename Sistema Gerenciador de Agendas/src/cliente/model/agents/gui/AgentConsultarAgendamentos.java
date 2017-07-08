@@ -1,10 +1,16 @@
-package model.agents.gui;
+package cliente.model.agents.gui;
 
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import cliente.model.bo.BoConfiguracoes;
+import cliente.model.bo.BoPainelDeControle;
+import cliente.model.entidades.Agendamento;
+import cliente.view.ViewConfiguracoes;
+import cliente.view.ViewConsultarAgendamentos;
+import cliente.view.ViewPainelDeControle;
 import jade.core.AID;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
@@ -14,12 +20,6 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
-import model.bo.BoConfiguracoes;
-import model.bo.BoPainelDeControle;
-import model.entidades.Agendamento;
-import view.ViewConfiguracoes;
-import view.ViewConsultarAgendamentos;
-import view.ViewPainelDeControle;
 
 public class AgentConsultarAgendamentos extends GuiAgent {
 	private static BoPainelDeControle painelDeControle = new BoPainelDeControle();

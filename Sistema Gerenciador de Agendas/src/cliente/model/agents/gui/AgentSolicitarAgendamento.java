@@ -1,4 +1,4 @@
-package model.agents.gui;
+package cliente.model.agents.gui;
 
 
 import java.util.ArrayList;
@@ -8,6 +8,10 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
+import cliente.model.bo.BoSolicitarAgendamento;
+import cliente.model.entidades.Agendamento;
+import cliente.view.ViewPainelDeControle;
+import cliente.view.ViewSolicitarAgendamento;
 import jade.core.AID;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
@@ -17,10 +21,6 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
-import model.bo.BoSolicitarAgendamento;
-import model.entidades.Agendamento;
-import view.ViewPainelDeControle;
-import view.ViewSolicitarAgendamento;
 
 public class AgentSolicitarAgendamento extends GuiAgent {
 	private BoSolicitarAgendamento boSolicitarAgendamento = new BoSolicitarAgendamento();

@@ -1,5 +1,6 @@
-package model.agentes.comportamentos;
+package cliente.model.agentes.comportamentos;
 
+import cliente.model.agents.AgentAgenda;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -12,7 +13,6 @@ import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import model.agents.AgentAgenda;
 
 public class FazerCheckIn extends Behaviour{	
 	@Override

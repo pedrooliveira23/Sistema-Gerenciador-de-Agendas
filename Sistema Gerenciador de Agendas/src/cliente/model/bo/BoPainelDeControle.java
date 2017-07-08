@@ -1,5 +1,7 @@
-package model.bo;
+package cliente.model.bo;
 
+import cliente.model.agents.gui.AgentPainelDeControle;
+import cliente.view.ViewPainelDeControle;
 import jade.Boot;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -8,8 +10,6 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
-import model.agents.gui.AgentPainelDeControle;
-import view.ViewPainelDeControle;
 
 public class BoPainelDeControle {
 

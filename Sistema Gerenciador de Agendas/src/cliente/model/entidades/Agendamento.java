@@ -1,9 +1,9 @@
-package model.entidades;
+package cliente.model.entidades;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.agents.AgentAgenda;
+import cliente.model.agents.AgentAgenda;
 
 public class Agendamento {
 	private String data;

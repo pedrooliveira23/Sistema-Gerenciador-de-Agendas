@@ -1,4 +1,4 @@
-package view;
+package cliente.view;
 
 import java.awt.EventQueue;
 
@@ -7,8 +7,8 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JCalendar;
 
+import cliente.model.agents.gui.AgentSolicitarAgendamento;
 import jade.gui.GuiEvent;
-import model.agents.gui.AgentSolicitarAgendamento;
 
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;

@@ -1,4 +1,4 @@
-package view;
+package cliente.view;
 
 import java.awt.EventQueue;
 
@@ -13,8 +13,8 @@ import java.awt.Color;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
+import cliente.model.agents.gui.AgentConsultarAgendamentos;
 import jade.gui.GuiEvent;
-import model.agents.gui.AgentConsultarAgendamentos;
 
 import javax.swing.ListSelectionModel;
 

@@ -1,9 +1,12 @@
-package model.agents;
+package cliente.model.agents;
 
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
+import cliente.model.agentes.comportamentos.FazerCheckIn;
+import cliente.model.agents.gui.AgentPainelDeControle;
+import cliente.model.entidades.Agendamento;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
@@ -12,9 +15,6 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
-import model.agentes.comportamentos.FazerCheckIn;
-import model.agents.gui.AgentPainelDeControle;
-import model.entidades.Agendamento;
 
 public class AgentAgenda extends Agent {
 	private Agendamento agendamento;

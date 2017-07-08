@@ -1,4 +1,4 @@
-package model.bo;
+package cliente.model.bo;
 
 public class BoConfiguracoes {
 	public void encerrar() {

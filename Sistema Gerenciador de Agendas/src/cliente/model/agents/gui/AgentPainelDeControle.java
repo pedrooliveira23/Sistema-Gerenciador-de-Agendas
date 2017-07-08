@@ -1,7 +1,9 @@
-package model.agents.gui;
+package cliente.model.agents.gui;
 
 import javax.swing.JOptionPane;
 
+import cliente.model.bo.BoPainelDeControle;
+import cliente.view.ViewPainelDeControle;
 import jade.core.AID;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
@@ -12,8 +14,6 @@ import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 import jade.wrapper.ControllerException;
-import model.bo.BoPainelDeControle;
-import view.ViewPainelDeControle;
 
 public class AgentPainelDeControle extends GuiAgent {
 	private BoPainelDeControle painelDeControle = new BoPainelDeControle();
@@ -28,13 +28,7 @@ public class AgentPainelDeControle extends GuiAgent {
 	protected void setup() {
 		painel = new ViewPainelDeControle(this);
 		painel.getFrame().setVisible(true);
-		this.CriarAgent(nomeAgente, "model.agents.AgentAgenda");
-		this.CriarAgent("A", "model.agents.AgentAgenda");
-		this.CriarAgent("B", "model.agents.AgentAgenda");
-		this.CriarAgent("C", "model.agents.AgentAgenda");
-		this.CriarAgent("D", "model.agents.AgentAgenda");
-		this.CriarAgent("E", "model.agents.AgentAgenda");
-		this.CriarAgent("F", "model.agents.AgentAgenda");
+		this.CriarAgent(nomeAgente, "cliente.model.agents.AgentAgenda");
 		
 		DFAgentDescription dfd = new DFAgentDescription();
 		dfd.setName(this.getAID());
@@ -79,13 +73,13 @@ public class AgentPainelDeControle extends GuiAgent {
 	protected void onGuiEvent(GuiEvent ge) {
 		switch (ge.getType()) {
 		case CONSULTAR:
-			CriarAgent("ConsultarAgendamentoGUI", "model.agents.gui.AgentConsultarAgendamentos");
+			CriarAgent("ConsultarAgendamentoGUI", "cliente.model.agents.gui.AgentConsultarAgendamentos");
 			break;
 		case SOLICITAR:
-			CriarAgent("SolicitarAgendamentoGUI", "model.agents.gui.AgentSolicitarAgendamento");
+			CriarAgent("SolicitarAgendamentoGUI", "cliente.model.agents.gui.AgentSolicitarAgendamento");
 			break;
 		case CONFIGURAR:
-			CriarAgent("ConfiguracaoGUI", "model.agents.gui.AgentConfiguracoes");
+			CriarAgent("ConfiguracaoGUI", "cliente.model.agents.gui.AgentConfiguracoes");
 			break;
 		case SAIR:
 			painel.getFrame().dispose();

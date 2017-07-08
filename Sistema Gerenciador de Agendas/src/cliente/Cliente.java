@@ -1,3 +1,7 @@
+package cliente;
+
+import javax.swing.JOptionPane;
+
 import jade.Boot;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -5,22 +9,18 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 
-public class Main {
+public class Cliente {
 
 	public static void main(String[] args) {
 		Boot jadeBoot = new Boot();
-		String[] jadeArgs = new String[1];
-		jadeArgs[0] = "-gui";
-		jadeBoot.main(jadeArgs);
 		jade.core.Runtime runtime = jade.core.Runtime.instance();
 		Profile profile = new ProfileImpl();
-		profile.setParameter(Profile.CONTAINER_NAME, "Agendas");
-		profile.setParameter(Profile.MAIN_HOST, "localhost");
+		profile.setParameter(Profile.MAIN_HOST, JOptionPane.showInputDialog(null, "Endereço do servidor:"));
 		ContainerController container = runtime.createAgentContainer(profile);
 		AgentController ag;
 		try {
 			ag = container.createNewAgent("PainelDeControleGUI", 
-					"model.agents.gui.AgentPainelDeControle", 
+					"cliente.model.agents.gui.AgentPainelDeControle", 
 					new Object[] {});
 			ag.start();
 		} catch (StaleProxyException e) {

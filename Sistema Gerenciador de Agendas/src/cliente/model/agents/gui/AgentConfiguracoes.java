@@ -1,11 +1,11 @@
-package model.agents.gui;
+package cliente.model.agents.gui;
 
+import cliente.model.bo.BoConfiguracoes;
+import cliente.model.bo.BoPainelDeControle;
+import cliente.view.ViewConfiguracoes;
+import cliente.view.ViewPainelDeControle;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
-import model.bo.BoConfiguracoes;
-import model.bo.BoPainelDeControle;
-import view.ViewConfiguracoes;
-import view.ViewPainelDeControle;
 
 public class AgentConfiguracoes extends GuiAgent {
 	private static BoPainelDeControle painelDeControle = new BoPainelDeControle();
@@ -25,7 +25,7 @@ public class AgentConfiguracoes extends GuiAgent {
 	protected void onGuiEvent(GuiEvent arg0) {
 		switch(arg0.getType()) {
 			case SALVAR:
-				salvarConfiguracoes(configuracoes.getNomeAgente(), "model.agents.AgentAgenda");
+				salvarConfiguracoes(configuracoes.getNomeAgente(), "cliente.model.agents.AgentAgenda");
 				configuracoes.getFrame().dispose();
 				configuracoes = null;
 				doDelete();

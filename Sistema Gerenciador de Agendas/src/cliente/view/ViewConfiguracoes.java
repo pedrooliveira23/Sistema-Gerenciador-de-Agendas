@@ -1,4 +1,4 @@
-package view;
+package cliente.view;
 
 import java.awt.EventQueue;
 
@@ -12,9 +12,9 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
+import cliente.model.agents.gui.AgentConfiguracoes;
+import cliente.model.agents.gui.AgentPainelDeControle;
 import jade.gui.GuiEvent;
-import model.agents.gui.AgentConfiguracoes;
-import model.agents.gui.AgentPainelDeControle;
 
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
