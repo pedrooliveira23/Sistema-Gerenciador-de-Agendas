@@ -72,23 +72,23 @@ public class AgentPainelDeControle extends GuiAgent {
 		switch (ge.getType()) {
 		case CONSULTAR:
 			try {
-				criarAgent("ConsultarAgendamentoGUI", "cliente.model.agents.gui.AgentConsultarAgendamentos-" +  NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), this.getContainerController());
-			} catch (SocketException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			break;
-		case SOLICITAR:
-			try {
-				criarAgent("SolicitarAgendamentoGUI", "cliente.model.agents.gui.AgentSolicitarAgendamento-"  + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), this.getContainerController());
+				criarAgent("ConsultarAgendamentoGUI-"  + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), "cliente.model.agents.gui.AgentConsultarAgendamentos", this.getContainerController());
 			} catch (SocketException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			break;
+		case SOLICITAR:
+			try {
+				criarAgent("SolicitarAgendamentoGUI-"  + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), "cliente.model.agents.gui.AgentSolicitarAgendamento", this.getContainerController());
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		case CONFIGURAR:
 			try {
-				criarAgent("ConfiguracaoGUI", "cliente.model.agents.gui.AgentConfiguracoes-" + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), this.getContainerController());
+				criarAgent("ConfiguracaoGUI-"  + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), "cliente.model.agents.gui.AgentConfiguracoes", this.getContainerController());
 			} catch (SocketException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
