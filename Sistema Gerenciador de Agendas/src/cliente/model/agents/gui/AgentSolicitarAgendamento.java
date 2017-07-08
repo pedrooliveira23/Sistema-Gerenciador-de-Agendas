@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
-import cliente.model.bo.BoSolicitarAgendamento;
 import cliente.model.entidades.Agendamento;
 import cliente.view.ViewPainelDeControle;
 import cliente.view.ViewSolicitarAgendamento;
@@ -23,7 +22,6 @@ import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 
 public class AgentSolicitarAgendamento extends GuiAgent {
-	private BoSolicitarAgendamento boSolicitarAgendamento = new BoSolicitarAgendamento();
 	private ViewSolicitarAgendamento solicitarAgendamento;
 	private AID AIDAgenteLocal;
 	public static final int SOLICITAR = 0;
@@ -37,7 +35,7 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 	public String objetivo;
 	public String[] participantes;
 	private Agendamento agendamento;
-	
+
 	protected void setup() {
 		solicitarAgendamento = new ViewSolicitarAgendamento(this);
 		solicitarAgendamento.getFrame().setVisible(true);
@@ -51,19 +49,19 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 			protected void onTick() {
 				ACLMessage msgRx = receive();
 				if (msgRx != null) {
-					if(msgRx.getContent().startsWith("Agendamento:")) {
-						String msg = msgRx.getContent().replaceAll("Agendamento:", "");
+					if(msgRx.getContent().startsWith("Verificar Disponibilidade:")) {
+						String msg = msgRx.getContent().replaceAll("Verificar Disponibilidade:", "");
 						if(msg.equals("true")) {
 							alerta += msgRx.getSender().getLocalName() + " possui disponibilidade neste horário.\n";
 							cont++;
 							contAceitosAgentes++;
 						} else {
 							int duracao = ((horaFinal*60)+minutoFinal - (horaInicial*60)+minutoInicial);
-							
+
 							String[] horarios = msg.split(";");
-							
+
 							String resp = "";
-							
+
 							if(horarios.length == 1 && horarios[0].equals("")) {							
 								alerta += msgRx.getSender().getLocalName() + " não possui disponiblidade no horário indicado.\n";
 								cont++;
@@ -75,8 +73,8 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 								cont++;
 							}
 						}
-					} else if(msgRx.getContent().startsWith("Confirmar:")) {
-						String msg = msgRx.getContent().replaceAll("Confirmar:", "");
+					} else if(msgRx.getContent().startsWith("Confirmar Agendamento:")) {
+						String msg = msgRx.getContent().replaceAll("Confirmar Agendamento:", "");
 						if(msg.equals("true")) {
 							alerta += msgRx.getSender().getLocalName() + " confirmou a participação na reunião.\n";
 							cont++;
@@ -92,9 +90,9 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 						if(alerta.contains("não confirmou a participação na reunião")) {
 							alerta +="\nNão será possível agendar a reunião!\n";
 						}
-						
+
 						JOptionPane.showMessageDialog(null, alerta);
-						
+
 						if(contAceitosAgentes == participantes.length) {
 							DFAgentDescription dfd = new DFAgentDescription();
 							ServiceDescription sd  = new ServiceDescription();
@@ -117,14 +115,14 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 
 
 								for(int i = 0; i < participantes.length; i++){
-									sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), participantes[i],"Portugues","Confirmar Agendamento");
+									sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), participantes[i],"Portugues","Solicitar Agendamento");
 								}
 							} catch (FIPAException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
-						
+
 						if(contAceitosHumanos == participantes.length) {
 							DFAgentDescription dfd = new DFAgentDescription();
 							ServiceDescription sd  = new ServiceDescription();
@@ -147,14 +145,14 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 
 
 								for(int i = 0; i < participantes.length; i++){
-									sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), participantes[i],"Portugues","Agendar");
+									sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), participantes[i],"Portugues","Registrar Agendamento");
 								}
 							} catch (FIPAException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
-						
+
 						alerta="";
 						cont=0;
 						contAceitosAgentes = 0;
@@ -199,7 +197,7 @@ public class AgentSolicitarAgendamento extends GuiAgent {
 		case SOLICITAR:
 			agendamento = new Agendamento(data, horaInicial, horaFinal, minutoInicial, minutoFinal, local, objetivo, participantes, AIDAgenteLocal.getLocalName());
 			Gson gson = new Gson();
-			String msg = "Agendamento:";
+			String msg = "Verificar Disponibilidade:";
 			msg += gson.toJson(agendamento);
 
 			DFAgentDescription dfd = new DFAgentDescription();

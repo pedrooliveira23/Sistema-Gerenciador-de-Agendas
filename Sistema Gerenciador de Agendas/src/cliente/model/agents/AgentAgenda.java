@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-import cliente.model.agentes.comportamentos.FazerCheckIn;
 import cliente.model.agents.gui.AgentPainelDeControle;
 import cliente.model.entidades.Agendamento;
 import jade.core.AID;
@@ -22,17 +21,31 @@ public class AgentAgenda extends Agent {
 	private AID senderOriginal;
 
 	protected void setup() {
+
+		DFAgentDescription dfd = new DFAgentDescription();
+		dfd.setName(this.getAID());
+		ServiceDescription sd = new ServiceDescription();
+		sd.setType("Agenda");
+		sd.setName(this.getLocalName());
+		dfd.addServices(sd);
+		try {
+			DFService.register(this, dfd);
+		}
+		catch (FIPAException fe) {
+			fe.printStackTrace();
+		}
+
+
 		setAgendamentos(new ArrayList());
-		addBehaviour(new FazerCheckIn());
 
 		addBehaviour(new TickerBehaviour(this, 500) {
 
 			protected void onTick() {
 				ACLMessage msgRx = receive();
 				if (msgRx != null) {
-					if(msgRx.getContent().startsWith("Agendamento:")) {
+					if(msgRx.getContent().startsWith("Verificar Disponibilidade:")) {
 						trataMensagemSolicitacaoAgendamento(msgRx);
-					} else if (msgRx.getContent().startsWith("Confirmar Agendamento")) {
+					} else if (msgRx.getContent().startsWith("Solicitar Agendamento")) {
 						senderOriginal = msgRx.getSender();
 						AID[] agendas = null;
 						DFAgentDescription dfd = new DFAgentDescription();
@@ -47,33 +60,33 @@ public class AgentAgenda extends Agent {
 							System.out.println(result.length + " results" );
 							for(int i = 0; i < result.length; i++) {
 								if(result[i].getName().getLocalName().equals("PainelDeControleGUI")) {
-									sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), result[i].getName(), "Portugues", "Confirmar Agendamento");
+									sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.REQUEST), result[i].getName(), "Portugues", "Solicitar Agendamento:" + agendamento.getSolicitante() + " deseja marcar uma reunião para " + agendamento.getObjetivo() + " no dia " + agendamento.getData() + " às " + agendamento.getHoraInicial() + "h" + agendamento.getMinutoInicial() + " até às " + agendamento.getHoraFinal() + "h" + agendamento.getMinutoFinal() + ", no " + agendamento.getLocal() + ", deseja participar?");
 								}
 							}
 						} catch (FIPAException e) {
 							e.printStackTrace();
 						}
-					} else if (msgRx.getContent().startsWith("Confirmar")) {
-						String msg = msgRx.getContent().replaceAll("Confirmar:", "");
+					} else if (msgRx.getContent().startsWith("Confirmar Agendamento")) {
+						String msg = msgRx.getContent().replaceAll("Confirmar Agendamento:", "");
 						if(msg.equals("true")) {
-							sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), senderOriginal, "Portugues", "Confirmar:true");
+							sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), senderOriginal, "Portugues", "Confirmar Agendamento:true");
 						} else {
-							sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), senderOriginal, "Portugues", "Confirmar:false");
+							sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), senderOriginal, "Portugues", "Confirmar Agendamento:false");
 						}
-					} else if (msgRx.getContent().equals("Agendar")) {
+					} else if (msgRx.getContent().equals("Registrar Agendamento")) {
 						agendamentos.add(agendamento);
-					} else if (msgRx.getContent().equals("Liste Agendamentos")) {
+					} else if (msgRx.getContent().equals("Consultar Agendamentos")) {
 						Gson gson = new Gson();
-						String msg = "Lista de Agendamentos:";
+						String msg = "Consultar Agendamentos:";
 						msg += gson.toJson(agendamentos);
 						sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", msg);
 					}
-							
+
 				}
 			}
 
 			private void trataMensagemSolicitacaoAgendamento(ACLMessage msgRx) {
-				String msg = msgRx.getContent().replaceAll("Agendamento:", "");
+				String msg = msgRx.getContent().replaceAll("Verificar Disponibilidade:", "");
 				Gson gson = new Gson();
 				agendamento = gson.fromJson(msg, Agendamento.class);
 				int duracao = ((agendamento.getHoraFinal()*60)+agendamento.getMinutoFinal() - (agendamento.getHoraInicial()*60)+agendamento.getMinutoInicial());
@@ -89,7 +102,7 @@ public class AgentAgenda extends Agent {
 
 
 				if(novoInicial == listaDeHoras[0]) {
-					sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Agendamento:true"); 
+					sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Verificar Disponibilidade:true"); 
 
 				} else {
 					String resp = "";
@@ -98,7 +111,7 @@ public class AgentAgenda extends Agent {
 							resp+=listaDeHoras[i]+";";
 						}
 					}
-					sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Agendamento:"+resp);
+					sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.INFORM), msgRx.getSender(), "Portugues", "Verificar Disponibilidade:"+resp);
 				}
 			}
 
@@ -134,7 +147,6 @@ public class AgentAgenda extends Agent {
 	protected void takeDown() {
 		try {
 			DFService.deregister(this);
-			System.out.println("CheckOut " + this.getLocalName());
 		} catch (FIPAException fe) {
 			fe.printStackTrace();
 		}

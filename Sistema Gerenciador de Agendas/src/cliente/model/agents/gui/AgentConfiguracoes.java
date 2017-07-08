@@ -1,14 +1,11 @@
 package cliente.model.agents.gui;
 
-import cliente.model.bo.BoConfiguracoes;
-import cliente.model.bo.BoPainelDeControle;
 import cliente.view.ViewConfiguracoes;
 import cliente.view.ViewPainelDeControle;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 
 public class AgentConfiguracoes extends GuiAgent {
-	private static BoPainelDeControle painelDeControle = new BoPainelDeControle();
 	transient protected ViewConfiguracoes configuracoes;
 	public static final int CANCELAR = 0;
 	public static final int SALVAR = 1;
@@ -19,7 +16,7 @@ public class AgentConfiguracoes extends GuiAgent {
 	}
 	
 	private void salvarConfiguracoes(String nome, String classe) {
-		painelDeControle.mudarNomeAgente(nome, classe, this.getContainerController());
+		AgentPainelDeControle.mudarNomeAgente(nome, classe, this.getContainerController());
 	}
 	@Override
 	protected void onGuiEvent(GuiEvent arg0) {

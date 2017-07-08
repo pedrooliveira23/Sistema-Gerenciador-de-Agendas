@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import cliente.model.bo.BoConfiguracoes;
-import cliente.model.bo.BoPainelDeControle;
 import cliente.model.entidades.Agendamento;
 import cliente.view.ViewConfiguracoes;
 import cliente.view.ViewConsultarAgendamentos;
@@ -22,14 +20,15 @@ import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 
 public class AgentConsultarAgendamentos extends GuiAgent {
-	private static BoPainelDeControle painelDeControle = new BoPainelDeControle();
 	transient protected ViewConsultarAgendamentos consultarAgendamentos;
+	private AgentPainelDeControle painelDeControle;
 	public static final int CANCELAR = 0;
 	public static final int REMOVER = 1;
 	ArrayList<Agendamento> agendamentos = null;
 	private boolean buscarAgendamentos;
 	
 	protected void setup() {
+		painelDeControle = new AgentPainelDeControle();
 		consultarAgendamentos = new ViewConsultarAgendamentos(this);
 		consultarAgendamentos.getFrame().setVisible(true);
 		buscarAgendamentos = true;
@@ -45,7 +44,7 @@ public class AgentConsultarAgendamentos extends GuiAgent {
 					result = DFService.search(myAgent, dfd);		
 					for(int i = 0; i < result.length; i++) {
 						if(result[i].getName().getLocalName().equals(AgentPainelDeControle.nomeAgente)) {
-							sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), result[i].getName(),"Portugues","Liste Agendamentos");
+							sendMessageSolicitacao(new ACLMessage(ACLMessage.REQUEST), result[i].getName(),"Portugues","Consultar Agendamentos");
 						}
 					}
 				} catch (FIPAException e) {
@@ -54,8 +53,8 @@ public class AgentConsultarAgendamentos extends GuiAgent {
 				}  
 				ACLMessage msgRx = receive();
 				if (msgRx != null) {
-					if(msgRx.getContent().startsWith("Lista de Agendamentos:") && buscarAgendamentos) {
-						String msg = msgRx.getContent().replaceAll("Lista de Agendamentos:", "");
+					if(msgRx.getContent().startsWith("Consultar Agendamentos:") && buscarAgendamentos) {
+						String msg = msgRx.getContent().replaceAll("Consultar Agendamentos:", "");
 						Gson gson = new Gson();
 						agendamentos = gson.fromJson(msg, new TypeToken<ArrayList<Agendamento>>(){}.getType());
 						for (int i = 0; i < agendamentos.size(); i++){
