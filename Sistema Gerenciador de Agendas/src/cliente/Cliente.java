@@ -1,5 +1,8 @@
 package cliente;
 
+import java.net.NetworkInterface;
+import java.net.SocketException;
+
 import javax.swing.JOptionPane;
 
 import jade.Boot;
@@ -19,11 +22,11 @@ public class Cliente {
 		ContainerController container = runtime.createAgentContainer(profile);
 		AgentController ag;
 		try {
-			ag = container.createNewAgent("PainelDeControleGUI", 
+			ag = container.createNewAgent("PainelDeControleGUI-" + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), 
 					"cliente.model.agents.gui.AgentPainelDeControle", 
 					new Object[] {});
 			ag.start();
-		} catch (StaleProxyException e) {
+		} catch (StaleProxyException | SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}//arguments

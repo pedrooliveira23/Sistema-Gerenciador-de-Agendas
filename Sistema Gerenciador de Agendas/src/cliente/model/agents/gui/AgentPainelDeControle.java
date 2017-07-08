@@ -1,5 +1,8 @@
 package cliente.model.agents.gui;
 
+import java.net.NetworkInterface;
+import java.net.SocketException;
+
 import javax.swing.JOptionPane;
 
 import cliente.view.ViewPainelDeControle;
@@ -68,13 +71,28 @@ public class AgentPainelDeControle extends GuiAgent {
 	protected void onGuiEvent(GuiEvent ge) {
 		switch (ge.getType()) {
 		case CONSULTAR:
-			criarAgent("ConsultarAgendamentoGUI", "cliente.model.agents.gui.AgentConsultarAgendamentos", this.getContainerController());
+			try {
+				criarAgent("ConsultarAgendamentoGUI", "cliente.model.agents.gui.AgentConsultarAgendamentos-" +  NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), this.getContainerController());
+			} catch (SocketException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			break;
 		case SOLICITAR:
-			criarAgent("SolicitarAgendamentoGUI", "cliente.model.agents.gui.AgentSolicitarAgendamento", this.getContainerController());
+			try {
+				criarAgent("SolicitarAgendamentoGUI", "cliente.model.agents.gui.AgentSolicitarAgendamento-"  + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), this.getContainerController());
+			} catch (SocketException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			break;
 		case CONFIGURAR:
-			criarAgent("ConfiguracaoGUI", "cliente.model.agents.gui.AgentConfiguracoes", this.getContainerController());
+			try {
+				criarAgent("ConfiguracaoGUI", "cliente.model.agents.gui.AgentConfiguracoes-" + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress(), this.getContainerController());
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		case SAIR:
 			painel.getFrame().dispose();

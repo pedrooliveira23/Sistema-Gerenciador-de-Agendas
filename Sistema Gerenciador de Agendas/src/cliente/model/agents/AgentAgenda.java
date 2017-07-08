@@ -1,5 +1,7 @@
 package cliente.model.agents;
 
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -59,11 +61,11 @@ public class AgentAgenda extends Agent {
 							result = DFService.search(myAgent, dfd);        
 							System.out.println(result.length + " results" );
 							for(int i = 0; i < result.length; i++) {
-								if(result[i].getName().getLocalName().equals("PainelDeControleGUI")) {
+								if(result[i].getName().getLocalName().equals("PainelDeControleGUI-" + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress())) {
 									sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.REQUEST), result[i].getName(), "Portugues", "Solicitar Agendamento:" + agendamento.getSolicitante() + " deseja marcar uma reunião para " + agendamento.getObjetivo() + " no dia " + agendamento.getData() + " às " + agendamento.getHoraInicial() + "h" + agendamento.getMinutoInicial() + " até às " + agendamento.getHoraFinal() + "h" + agendamento.getMinutoFinal() + ", no " + agendamento.getLocal() + ", deseja participar?");
 								}
 							}
-						} catch (FIPAException e) {
+						} catch (FIPAException | SocketException e) {
 							e.printStackTrace();
 						}
 					} else if (msgRx.getContent().startsWith("Confirmar Agendamento")) {
