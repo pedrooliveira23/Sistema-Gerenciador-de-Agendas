@@ -30,8 +30,10 @@ public class AgentPainelDeControle extends GuiAgent {
 	public static final int SOLICITAR = 1;
 	public static final int CONFIGURAR = 2;
 	public static final int SAIR = 3;
-
+	public static String nomePainel = null;
+	
 	protected void setup() {
+		nomePainel = this.getLocalName();
 		painel = new ViewPainelDeControle(this);
 		painel.getFrame().setVisible(true);
 		AgentPainelDeControle.criarAgent(nomeAgente, "cliente.model.agents.AgentAgenda", this.getContainerController());

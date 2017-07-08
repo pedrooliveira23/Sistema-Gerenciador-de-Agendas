@@ -61,11 +61,11 @@ public class AgentAgenda extends Agent {
 							result = DFService.search(myAgent, dfd);        
 							System.out.println(result.length + " results" );
 							for(int i = 0; i < result.length; i++) {
-								if(result[i].getName().getLocalName().equals("PainelDeControleGUI-" + NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress())) {
+								if(result[i].getName().getLocalName().equals(AgentPainelDeControle.nomePainel)) {
 									sendMessageRespostaSolicitacao(new ACLMessage(ACLMessage.REQUEST), result[i].getName(), "Portugues", "Solicitar Agendamento:" + agendamento.getSolicitante() + " deseja marcar uma reunião para " + agendamento.getObjetivo() + " no dia " + agendamento.getData() + " às " + agendamento.getHoraInicial() + "h" + agendamento.getMinutoInicial() + " até às " + agendamento.getHoraFinal() + "h" + agendamento.getMinutoFinal() + ", no " + agendamento.getLocal() + ", deseja participar?");
 								}
 							}
-						} catch (FIPAException | SocketException e) {
+						} catch (FIPAException e) {
 							e.printStackTrace();
 						}
 					} else if (msgRx.getContent().startsWith("Confirmar Agendamento")) {
